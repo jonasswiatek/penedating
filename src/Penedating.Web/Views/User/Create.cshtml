@@ -1,0 +1,61 @@
+﻿@model Penedating.Web.Models.UserCreateModel
+@{
+    ViewBag.Title = "Create";
+}
+<div class="row">
+    <div class="span12">
+        <div class="hero-unit">
+            <h1>Hey nerd!</h1>
+            <p>
+                You are about to become a member of one of the most exclusive societies on the entire internet. Just fill out the form and you can start penetrating!
+            </p>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="span12">
+        @using (Html.BeginForm("Create", "User", FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            <div class="control-group">
+                <label class="control-label" for="create-email">Desired User Name</label>
+                <div class="controls">
+                    @Html.TextBoxFor(a => a.Username, new { placeholder = "User name here", id = "create-email" })
+                    @Html.ValidationMessageFor(a => a.Username, "User name not valid", new { @class = "label label-important" })
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="create-password">Desired Password</label>
+                <div class="controls">
+                    @Html.PasswordFor(a => a.Password, new { placeholder = "Password here", id = "create-password" })
+                    @Html.ValidationMessageFor(a => a.Password, "Password not valid", new { @class = "label label-important" })
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="create-street">Street Address</label>
+                <div class="controls">
+                    @Html.TextBoxFor(a => a.StreetAddress, new { placeholder = "Street Address", id = "create-street" })
+                    @Html.ValidationMessageFor(a => a.StreetAddress, "Street Address not valid", new { @class = "label label-important" })
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="create-city">City</label>
+                <div class="controls">
+                    @Html.TextBoxFor(a => a.City, new { placeholder = "City", id = "create-city" })
+                    @Html.ValidationMessageFor(a => a.City, "City not valid", new { @class = "label label-important" })
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="create-zip">Zip Code</label>
+                <div class="controls">
+                    @Html.TextBoxFor(a => a.ZipCode, new { placeholder = "Zip Code", id = "create-zip" })
+                    @Html.ValidationMessageFor(a => a.ZipCode, "Zip code not valid", new { @class = "label label-important" })
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="btn btn-primary">Alright, penetrate me!</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>

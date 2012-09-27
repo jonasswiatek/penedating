@@ -2,7 +2,7 @@
 @{
     Layout = null;
 }
-@using(Html.BeginForm("Login", "User", FormMethod.Post, new {id = "login-form"}))
+@using(Html.BeginForm("Login", "User", FormMethod.Post, new {@class = "form-horizontal"}))
 {
     <legend>Sing in to find your penetration partner today!</legend>
     <div class="control-group">
@@ -22,7 +22,7 @@
     <div class="control-group">
         <div class="controls">
             <button type="submit" class="btn btn-primary" onclick="javascript:loginSubmit()">Sing In</button>
-            <a href="rofl" class="btn btn-info" >Create Profile</a>
+            <a href="@Url.Action("Create", "User")" class="btn btn-info" >Create Profile</a>
         </div>
     </div>
 }

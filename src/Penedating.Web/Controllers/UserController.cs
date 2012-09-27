@@ -9,6 +9,11 @@ namespace Penedating.Web.Controllers
 {
     public class UserController : Controller
     {
+        public ActionResult Login()
+        {
+            return View();
+        }
+
         [HttpPost]
         public ActionResult Login(LoginModel loginModel)
         {
@@ -20,9 +25,20 @@ namespace Penedating.Web.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public ActionResult New()
+        public ActionResult Create()
         {
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult Create(UserCreateModel userCreateModel)
+        {
+            if(!ModelState.IsValid)
+            {
+                return View(userCreateModel);
+            }
+
+            return RedirectToAction("Login");
         }
     }
 }
