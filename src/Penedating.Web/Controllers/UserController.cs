@@ -17,7 +17,7 @@ namespace Penedating.Web.Controllers
                 return View(loginModel);
             }
 
-            return View();
+            return RedirectToAction("Index", "Home");
         }
 
         public ActionResult New()
