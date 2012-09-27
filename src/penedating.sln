@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Penedating.Web", "Penedating.Web\Penedating.Web.csproj", "{51F78460-BCF9-416C-A5D6-BD07D19DE827}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Penedating.Service.Model", "Penedating.Service.Model\Penedating.Service.Model.csproj", "{1EA48F52-4EB2-4C82-AC6C-6DFAE94B20E8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{51F78460-BCF9-416C-A5D6-BD07D19DE827}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51F78460-BCF9-416C-A5D6-BD07D19DE827}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51F78460-BCF9-416C-A5D6-BD07D19DE827}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1EA48F52-4EB2-4C82-AC6C-6DFAE94B20E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1EA48F52-4EB2-4C82-AC6C-6DFAE94B20E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1EA48F52-4EB2-4C82-AC6C-6DFAE94B20E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1EA48F52-4EB2-4C82-AC6C-6DFAE94B20E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
