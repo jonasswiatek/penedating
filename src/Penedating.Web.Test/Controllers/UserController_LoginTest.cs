@@ -19,7 +19,7 @@ namespace Penedating.Web.Test.Controllers
     public class UserController_LoginTest
     {
         [Test]
-        public void TestLogin_TestValidationError()
+        public void Login_TestFormValidation()
         {
             var userServiceMock = new Mock<IUserService>();
             var userService = userServiceMock.Object;
@@ -38,7 +38,7 @@ namespace Penedating.Web.Test.Controllers
         }
 
         [Test]
-        public void TestLogin_InvalidCredentials()
+        public void Login_InvalidCredentials()
         {
             var userServiceMock = new Mock<IUserService>();
             var userService = userServiceMock.Object;
@@ -60,7 +60,7 @@ namespace Penedating.Web.Test.Controllers
         }
 
         [Test]
-        public void TestLogin_Success()
+        public void Login_Success()
         {
             var userServiceMock = new Mock<IUserService>();
             var userService = userServiceMock.Object;

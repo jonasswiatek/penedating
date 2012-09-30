@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\UserController_CreateTest.cs" />
     <Compile Include="Controllers\UserController_LoginTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
