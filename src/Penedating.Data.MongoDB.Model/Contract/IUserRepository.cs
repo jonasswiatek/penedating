@@ -7,9 +7,8 @@ namespace Penedating.Data.MongoDB.Model.Contract
 {
     public interface IUserRepository
     {
-        User Login(string username, byte[] passwordHash);
-        User Create(string username, byte[] passwordHash);
-        User Update(User user);
+        User Login(string email, byte[] passwordHash);
+        User Create(string email, byte[] passwordHash);
         User GetUserByID(string userId);
     }
 }

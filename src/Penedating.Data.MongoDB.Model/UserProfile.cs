@@ -5,9 +5,9 @@ using System.Text;
 
 namespace Penedating.Data.MongoDB.Model
 {
-    public class User
+    public class UserProfile
     {
-        public string UserID { get; set; }
-        public string Email { get; set; }
+        public string Username { get; set; }
+        public Address Address { get; set; }
     }
 }

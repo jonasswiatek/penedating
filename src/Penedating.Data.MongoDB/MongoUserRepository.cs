@@ -13,7 +13,7 @@ namespace Penedating.Data.MongoDB
 {
     public class MongoUserRepository : IUserRepository
     {
-        private MongoCollection<User> _mongoCollection;
+        private MongoCollection<Model.MongoUser> _mongoCollection;
         private MongoDatabase _database;
         private readonly MongoServer _server;
 
@@ -21,53 +21,64 @@ namespace Penedating.Data.MongoDB
         {
             _server = MongoServer.Create(connectionString);
             _database = _server.GetDatabase(databaseName);
-            _mongoCollection = _database.GetCollection<User>("users");
+            _mongoCollection = _database.GetCollection<Model.MongoUser>("users");
         }
 
         public User Login(string username, byte[] passwordHash)
         {
             var query = _mongoCollection.AsQueryable();
-            var user = query.SingleOrDefault(a => a.Username == username);
-            if(user == null)
+            var mongoUser = query.SingleOrDefault(a => a.Email == username && a.PasswordHash == passwordHash);
+            if(mongoUser == null)
             {
                 throw new UserEntityNotFoundException();
             }
 
-            return user;
+            return new User()
+                       {
+                           UserID = mongoUser.UserID,
+                           Email = mongoUser.Email
+                       };
         }
 
-        public User Create(string username, byte[] passwordHash)
+        public User Create(string email, byte[] passwordHash)
         {
             var query = _mongoCollection.AsQueryable();
-            var existingUser = query.Any(a => a.Username == username);
+            var existingUser = query.Any(a => a.Email == email);
             if(existingUser)
             {
                 throw new UserEntityAlreadyExistsException();
             }
 
-            var user = new User()
+            var user = new Model.MongoUser()
                            {
-                               Username = username
+                               Email = email,
+                               PasswordHash = passwordHash
                            };
 
             var result = _mongoCollection.Insert(user);
             if(result.Ok)
             {
-                return Login(username, passwordHash);
+                return Login(email, passwordHash);
             }
 
             throw new Exception("Something went wrong. Amagad");
         }
 
-        public User Update(User user)
-        {
-            var query = _mongoCollection.AsQueryable();
-            return null;
-        }
-
         public User GetUserByID(string userId)
         {
-            throw new NotImplementedException();
+            var query = _mongoCollection.AsQueryable();
+            var mongoUser = query.SingleOrDefault(a => a.UserID == userId);
+
+            if(mongoUser == null)
+            {
+                throw new UserEntityNotFoundException();
+            }
+
+            return new User
+                       {
+                           Email = mongoUser.Email,
+                           UserID = mongoUser.UserID
+                       };
         }
     }
 }
