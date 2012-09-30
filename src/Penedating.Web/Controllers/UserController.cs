@@ -53,8 +53,7 @@ namespace Penedating.Web.Controllers
             }
             catch(InvalidUserCredentialsException iuce)
             {
-                ModelState.AddModelError("Username", "Invalid");
-                ModelState.AddModelError("Password", "Invalid");
+                ModelState.AddModelError("email", "Invalid email or password");
 
                 return View(loginModel);
             }
