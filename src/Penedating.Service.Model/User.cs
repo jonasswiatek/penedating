@@ -7,6 +7,7 @@ namespace Penedating.Service.Model
 {
     public class User
     {
+        public string UserID { get; set; }
         public string Name { get; set; }
         public Address Address { get; set; }
         public IEnumerable<Hobby> Hobbies { get; set; }
