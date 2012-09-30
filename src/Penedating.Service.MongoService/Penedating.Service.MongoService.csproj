@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{0F5B0138-39FD-4764-A51C-3A290D6B783B}</ProjectGuid>
+    <ProjectGuid>{E0EE05F5-FF18-43FC-BB82-7F3F8B42B402}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Penedating.Data.MongoDB</RootNamespace>
-    <AssemblyName>Penedating.Data.MongoDB</AssemblyName>
+    <RootNamespace>Penedating.Service.MongoService</RootNamespace>
+    <AssemblyName>Penedating.Service.MongoService</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,11 +31,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MongoDB.Bson">
-      <HintPath>..\packages\mongocsharpdriver.1.6\lib\net35\MongoDB.Bson.dll</HintPath>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.2.2.0\lib\net40\AutoMapper.dll</HintPath>
     </Reference>
-    <Reference Include="MongoDB.Driver">
-      <HintPath>..\packages\mongocsharpdriver.1.6\lib\net35\MongoDB.Driver.dll</HintPath>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -44,20 +45,31 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WebActivator">
+      <HintPath>..\packages\WebActivator.1.5.1\lib\net40\WebActivator.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="InternalModel\MongoUser.cs" />
-    <Compile Include="UserRepository.cs" />
+    <Compile Include="App_Start\AutoMapperInit.cs" />
+    <Compile Include="MongoUserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Penedating.Data.MongoDB.Model\Penedating.Data.MongoDB.Model.csproj">
       <Project>{14B90E5B-C7F7-4058-8FFF-15EB6C353227}</Project>
       <Name>Penedating.Data.MongoDB.Model</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Penedating.Data.MongoDB\Penedating.Data.MongoDB.csproj">
+      <Project>{0F5B0138-39FD-4764-A51C-3A290D6B783B}</Project>
+      <Name>Penedating.Data.MongoDB</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Penedating.Service.Model\Penedating.Service.Model.csproj">
+      <Project>{1EA48F52-4EB2-4C82-AC6C-6DFAE94B20E8}</Project>
+      <Name>Penedating.Service.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

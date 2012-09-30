@@ -10,7 +10,7 @@ namespace Penedating.Service.Model.Contract
         UserAccessToken Login(UserCredentials credentials);
         UserAccessToken Create(UserCredentials credentials);
 
-        UserProfile GetUserProfile(UserCredentials userCredentials);
+        UserProfile GetUserProfile(UserAccessToken userCredentials);
         void UpdateProfile(UserAccessToken accessToken, UserProfile updatedProfile);
     }
 }

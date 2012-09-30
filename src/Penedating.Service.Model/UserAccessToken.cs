@@ -9,6 +9,10 @@ namespace Penedating.Service.Model
     {
         public string Ticket { get; private set; }
 
+        public UserAccessToken()
+        {
+        }
+
         public UserAccessToken(string ticket)
         {
             Ticket = ticket;
