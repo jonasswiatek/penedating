@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Penedating.Web.Security
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8" />
@@ -16,14 +17,31 @@
             <div class="navbar navbar-inverse navbar-fixed-top">
                 <div class="navbar-inner">
                     <div class="container">
-                        <a class="brand" href="@Url.Action("index","home")">Penedating</a>
+                        <a class="brand" href="@Url.Action("index", "home")">Penedating</a>
                         <ul class="nav">
-                            <li><a href="@Url.Action("Login", "User")">Login</a></li>
-                        </ul>
-                        
-                        <ul class="nav pull-right">
+                            
                             <li><a href="@Url.Action("Index", "About")">About</a></li>
                         </ul>
+
+                        <ul class="nav pull-right" class="dropdown">
+                            @if (UserState.Current != null)
+                            {
+                                <li>
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">@UserState.Current.Email <i class="icon-chevron-down icon-white"></i></a>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                        <li><a href="@Url.Action("Index", "Me")"><i class="icon-wrench"></i> My Account</a></li>
+                                        <li class="divider"></li>
+                                        <li><a href="@Url.Action("Logout", "Me")"><i class="icon-off"></i> Logout</a></li>
+                                    </ul>
+                                </li>
+                            }
+                            else
+                            {   
+                                <li><a href="@Url.Action("Index", "Login")">Login</a></li>
+                            }
+                        </ul>
+                        
+                        
                     </div>
                 </div>
             </div>

@@ -12,11 +12,12 @@ using Penedating.Service.Model.Contract;
 using Penedating.Service.Model.Exceptions;
 using Penedating.Web.Controllers;
 using Penedating.Web.Models;
+using Penedating.Web.Security;
 
 namespace Penedating.Web.Test.Controllers
 {
     [TestFixture]
-    public class UserController_LoginTest
+    public class LoginController_LoginTest
     {
         [Test]
         public void Login_TestFormValidation()
@@ -24,7 +25,7 @@ namespace Penedating.Web.Test.Controllers
             var userServiceMock = new Mock<IUserService>();
             var userService = userServiceMock.Object;
 
-            var userController = new UserController(userService);
+            var userController = new LoginController(userService);
             userController.ViewData.ModelState.AddModelError("rofl", "nao"); //This simulates any validation error
             var loginModel = new LoginModel();
             var credentials = new UserCredentials()
@@ -33,7 +34,7 @@ namespace Penedating.Web.Test.Controllers
                                       Password = loginModel.Password
                                   };
 
-            var result = userController.Login(loginModel) as ViewResult;
+            var result = userController.Index(loginModel) as ViewResult;
 
             //Verify that the controller does not try to call login on IUserService
             userServiceMock.Verify(a => a.Login(credentials), Times.Never());
@@ -48,7 +49,7 @@ namespace Penedating.Web.Test.Controllers
             var userServiceMock = new Mock<IUserService>();
             var userService = userServiceMock.Object;
 
-            var userController = new UserController(userService);
+            var userController = new LoginController(userService);
 
             var loginModel = new LoginModel()
             {
@@ -64,7 +65,7 @@ namespace Penedating.Web.Test.Controllers
 
             userServiceMock.Setup(a => a.Login(credentials)).Throws(new InvalidUserCredentialsException());
 
-            var actionResult = userController.Login(loginModel) as ViewResult;
+            var actionResult = userController.Index(loginModel) as ViewResult;
 
             Assert.IsNotNull(actionResult, "Controller did not return a ViewResult");
             Assert.AreSame(loginModel, actionResult.Model, "Controller did not forward the defective view");
@@ -79,7 +80,7 @@ namespace Penedating.Web.Test.Controllers
             var controllerContextMock = new Mock<ControllerContext>();
             controllerContextMock.SetupSet(a => a.HttpContext.Session["UserState"] = It.IsAny<UserState>()).Verifiable("Controllre did not set session state");
 
-            var userController = new UserController(userService) {ControllerContext = controllerContextMock.Object};
+            var userController = new LoginController(userService) {ControllerContext = controllerContextMock.Object};
 
             var loginModel = new LoginModel()
                                  {
@@ -97,7 +98,7 @@ namespace Penedating.Web.Test.Controllers
 
             userServiceMock.Setup(a => a.Login(credentials)).Returns(accessToken);
 
-            var result = userController.Login(loginModel) as RedirectToRouteResult;
+            var result = userController.Index(loginModel) as RedirectToRouteResult;
 
             Assert.IsNotNull(result, "Login Action did not yield a Redirection");
             Assert.AreEqual(result.RouteValues["controller"], "Home");

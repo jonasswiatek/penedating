@@ -8,6 +8,7 @@ using Penedating.Service.Model;
 using Penedating.Service.Model.Contract;
 using Penedating.Service.Model.Exceptions;
 using Penedating.Web.Models;
+using Penedating.Web.Security;
 
 namespace Penedating.Web.Controllers
 {
@@ -20,52 +21,13 @@ namespace Penedating.Web.Controllers
             _userService = userService;
         }
 
-        public ActionResult Login()
+        public ActionResult Index()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult Login(LoginModel loginModel)
-        {
-            if(!ModelState.IsValid)
-            {
-                return View(loginModel);
-            }
-
-            try
-            {
-                var userCredentials = Mapper.Map<UserCredentials>(loginModel);
-
-                //Attempt to login the user. This method will throw an exception if this fails.
-                var accessToken = _userService.Login(userCredentials);
-
-                //Please notice that we do not store the user object it self. This is to remain scalable.
-                var userState = new UserState   
-                                    {
-                                        Email = userCredentials.Email,
-                                        AccessToken = accessToken
-                                    };
-
-                Session["UserState"] = userState;
-            
-                return RedirectToAction("Index", "Home");
-            }
-            catch(InvalidUserCredentialsException iuce)
-            {
-                ModelState.AddModelError("email", "Invalid email or password");
-
-                return View(loginModel);
-            }
-        }
-
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult Create(UserCreateModel userCreateModel)
+        public ActionResult Index(UserCreateModel userCreateModel)
         {
             if(!ModelState.IsValid)
             {
@@ -89,7 +51,12 @@ namespace Penedating.Web.Controllers
             _userService.UpdateProfile(accessToken, userProfile);
 
             //Login the newly created user
-            return Login(userCreateModel);
+            return RedirectToAction("CreatedConfirm");
+        }
+
+        public ActionResult CreatedConfirm()
+        {
+            return View();
         }
     }
 }

@@ -11,6 +11,7 @@ using Penedating.Service.Model.Exceptions;
 using Penedating.Web.App_Start;
 using Penedating.Web.Controllers;
 using Penedating.Web.Models;
+using Penedating.Web.Security;
 
 namespace Penedating.Web.Test.Controllers
 {
@@ -33,7 +34,7 @@ namespace Penedating.Web.Test.Controllers
                                           Password = createModel.Password
                                       };
 
-            var result = userController.Create(createModel) as ViewResult;
+            var result = userController.Index(createModel) as ViewResult;
             
             //Verify that the controller does not try to call login on IUserService
             userServiceMock.Verify(a => a.Create(userCredentials), Times.Never());
@@ -65,7 +66,7 @@ namespace Penedating.Web.Test.Controllers
                                   };
 
             userServiceMock.Setup(a => a.Create(credentials)).Throws(new UserExistsException());
-            var viewResult = userController.Create(createModel) as ViewResult;
+            var viewResult = userController.Index(createModel) as ViewResult;
 
             Assert.IsNotNull(viewResult, "Controller did not return a ViewResult");
             Assert.AreSame(createModel, viewResult.Model);
@@ -104,7 +105,7 @@ namespace Penedating.Web.Test.Controllers
             userServiceMock.Setup(a => a.Create(credentials)).Returns(accessToken);
             userServiceMock.Setup(a => a.Login(credentials)).Returns(accessToken);
 
-            var viewResult = userController.Create(createModel) as RedirectToRouteResult;
+            var viewResult = userController.Index(createModel) as RedirectToRouteResult;
 
             Assert.IsNotNull(viewResult, "Controller did not return a RedirectToRouteResult");
 

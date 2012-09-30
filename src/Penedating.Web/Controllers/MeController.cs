@@ -7,15 +7,22 @@ using Penedating.Web.Security;
 
 namespace Penedating.Web.Controllers
 {
-    public class HomeController : Controller
+    [LoginRequired]
+    public class MeController : Controller
     {
+        //
+        // GET: /Me/
+
         public ActionResult Index()
         {
-            if(UserState.Current != null)
-            {
-                return RedirectToAction("Index", "Me");
-            }
             return View();
+        }
+
+        public ActionResult Logout()
+        {
+            Session.Abandon();
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }

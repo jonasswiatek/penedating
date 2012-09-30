@@ -51,7 +51,7 @@
   <ItemGroup>
     <Compile Include="Controllers\Initializer.cs" />
     <Compile Include="Controllers\UserController_CreateTest.cs" />
-    <Compile Include="Controllers\UserController_LoginTest.cs" />
+    <Compile Include="Controllers\LoginController_LoginTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

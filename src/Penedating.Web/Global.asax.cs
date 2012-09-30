@@ -12,6 +12,8 @@ namespace Penedating.Web
 
     public class MvcApplication : System.Web.HttpApplication
     {
+        public static string UserStateCookieName = "UserState";
+
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
