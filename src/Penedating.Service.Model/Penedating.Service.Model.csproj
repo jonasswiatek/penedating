@@ -43,6 +43,7 @@
     <Compile Include="Address.cs" />
     <Compile Include="Contract\IUserService.cs" />
     <Compile Include="Exceptions\InvalidUserCredentialsException.cs" />
+    <Compile Include="Exceptions\UserExistsException.cs" />
     <Compile Include="Hobby.cs" />
     <Compile Include="Interest.cs" />
     <Compile Include="User.cs" />

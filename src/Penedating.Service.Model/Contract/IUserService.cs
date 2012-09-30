@@ -9,6 +9,6 @@ namespace Penedating.Service.Model.Contract
     {
         User Login(string name, string password);
         User Create(string name, string password);
-        void Update(string userId, User updatedUserProfile);
+        void Update(User updatedUserProfile);
     }
 }

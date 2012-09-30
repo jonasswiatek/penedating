@@ -16,7 +16,7 @@ using Penedating.Web.Models;
 namespace Penedating.Web.Test.Controllers
 {
     [TestFixture]
-    public class UserControllerTest
+    public class UserController_LoginTest
     {
         [Test]
         public void TestLogin_TestValidationError()

@@ -69,18 +69,25 @@ namespace Penedating.Web.Controllers
                 return View(userCreateModel);
             }
 
-            var user = _userService.Create(userCreateModel.Username, userCreateModel.Password);
-            var userProfile = new User
-                                  {
-                                      Address = new Address()
-                                                    {
-                                                        City = userCreateModel.City,
-                                                        Street = userCreateModel.StreetAddress,
-                                                        ZipCode = userCreateModel.ZipCode
-                                                    }
-                                  };
+            User user;
+            try
+            {
+                user = _userService.Create(userCreateModel.Username, userCreateModel.Password);
+            }
+            catch(UserExistsException uee)
+            {
+                ModelState.AddModelError("Username", "Exists");
+                return View(userCreateModel);
+            }
 
-            _userService.Update(user.UserID, userProfile);
+            user.Address = new Address()
+                               {
+                                   City = userCreateModel.City,
+                                   Street = userCreateModel.StreetAddress,
+                                   ZipCode = userCreateModel.ZipCode
+                               };
+
+            _userService.Update(user);
 
             //Login the newly created user
             return Login(userCreateModel);
