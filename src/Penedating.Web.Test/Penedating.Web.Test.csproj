@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Moq">
+      <HintPath>..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework, Version=2.6.1.12217, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NUnit.2.6.1\lib\nunit.framework.dll</HintPath>
@@ -53,6 +56,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Penedating.Service.Model\Penedating.Service.Model.csproj">
+      <Project>{1EA48F52-4EB2-4C82-AC6C-6DFAE94B20E8}</Project>
+      <Name>Penedating.Service.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Penedating.Web\Penedating.Web.csproj">
       <Project>{51F78460-BCF9-416C-A5D6-BD07D19DE827}</Project>
       <Name>Penedating.Web</Name>

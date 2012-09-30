@@ -34,6 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Moq">
+      <HintPath>..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -84,6 +87,7 @@
     </Compile>
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\UserCreateModel.cs" />
+    <Compile Include="Models\UserState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -126,6 +130,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\About\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Penedating.IoC\Penedating.IoC.csproj">
+      <Project>{28837607-17BA-4550-8214-462098DEE674}</Project>
+      <Name>Penedating.IoC</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Penedating.Service.Model\Penedating.Service.Model.csproj">
+      <Project>{1EA48F52-4EB2-4C82-AC6C-6DFAE94B20E8}</Project>
+      <Name>Penedating.Service.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
