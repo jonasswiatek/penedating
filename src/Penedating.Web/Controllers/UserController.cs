@@ -81,7 +81,7 @@ namespace Penedating.Web.Controllers
             }
             catch(UserExistsException uee)
             {
-                ModelState.AddModelError("Username", "Exists");
+                ModelState.AddModelError("email", "Email already in use");
                 return View(userCreateModel);
             }
 

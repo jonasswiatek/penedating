@@ -58,6 +58,8 @@ namespace Penedating.Service.MongoService
 
         public void UpdateProfile(UserAccessToken accessToken, UserProfile updatedProfile)
         {
+            var dataUserProfile = Mapper.Map<Data.MongoDB.Model.UserProfile>(updatedProfile);
+            _userRepository.UpdateProfile(accessToken.Ticket, dataUserProfile);
         }
     }
 }

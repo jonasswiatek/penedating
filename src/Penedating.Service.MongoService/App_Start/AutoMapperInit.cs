@@ -20,6 +20,15 @@ namespace Penedating.Service.MongoService.App_Start
                 .ForMember(a => a.Street, b => b.MapFrom(c => c.StreetAddress))
                 .ForMember(a => a.City, b => b.MapFrom(c => c.City))
                 .ForMember(a => a.ZipCode, b => b.MapFrom(c => c.ZipCode));
+
+            Mapper.CreateMap<Service.Model.UserProfile, Data.MongoDB.Model.UserProfile>()
+                .ForMember(a => a.Username, b => b.MapFrom(c => c.Username))
+                .ForMember(a => a.Address, b => b.MapFrom(c => c.Address));
+
+            Mapper.CreateMap<Service.Model.Address, Data.MongoDB.Model.Address>()
+                .ForMember(a => a.StreetAddress, b => b.MapFrom(c => c.Street))
+                .ForMember(a => a.City, b => b.MapFrom(c => c.City))
+                .ForMember(a => a.ZipCode, b => b.MapFrom(c => c.ZipCode));
         }
     }
 }

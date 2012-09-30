@@ -5,7 +5,7 @@ using Penedating.Data.MongoDB.Model;
 
 namespace Penedating.Data.MongoDB.InternalModel
 {
-    internal class MongoUser
+    internal class PenedatingMongoUser
     {
         [BsonId]
         public BsonObjectId UserID { get; set; }

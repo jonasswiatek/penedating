@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using MongoDB.Driver.Linq;
+using Penedating.Data.MongoDB.InternalModel;
 using Penedating.Data.MongoDB.Model;
 using Penedating.Data.MongoDB.Model.Contract;
 using Penedating.Data.MongoDB.Model.Exceptions;
-using MongoUser = Penedating.Data.MongoDB.InternalModel.MongoUser;
 
 namespace Penedating.Data.MongoDB
 {
     public class UserRepository : IUserRepository
     {
-        private readonly MongoCollection<MongoUser> _mongoCollection;
+        private readonly MongoCollection<PenedatingMongoUser> _mongoCollection;
         private readonly MongoDatabase _database;
         private readonly MongoServer _server;
 
@@ -23,7 +24,7 @@ namespace Penedating.Data.MongoDB
         {
             _server = MongoServer.Create(connectionString);
             _database = _server.GetDatabase(databaseName);
-            _mongoCollection = _database.GetCollection<MongoUser>("users");
+            _mongoCollection = _database.GetCollection<PenedatingMongoUser>("users");
         }
 
         public User Login(string username, string password)
@@ -62,7 +63,7 @@ namespace Penedating.Data.MongoDB
             var passwordSalt = GenerateSalt();
             var passwordHash = GenerateSaltedHash(password, passwordSalt);
 
-            var user = new MongoUser()
+            var user = new PenedatingMongoUser()
                            {
                                Email = email,
                                PasswordSalt = passwordSalt,
@@ -81,7 +82,7 @@ namespace Penedating.Data.MongoDB
         public User GetUserByID(string userId)
         {
             var query = _mongoCollection.AsQueryable();
-            var mongoUser = query.SingleOrDefault(a => a.UserID == userId);
+            var mongoUser = query.SingleOrDefault(a => a.UserID == new BsonObjectId(userId));
 
             if(mongoUser == null)
             {
@@ -93,6 +94,19 @@ namespace Penedating.Data.MongoDB
                            UserID = mongoUser.UserID.ToString(),
                            Email = mongoUser.Email
                        };
+        }
+
+        public void UpdateProfile(string userId, UserProfile profile)
+        {
+            var query = _mongoCollection.AsQueryable();
+            var user = query.SingleOrDefault(a => a.UserID == new BsonObjectId(userId));
+            if (user == null)
+            {
+                throw new UserEntityNotFoundException();
+            }
+
+            user.UserProfile = profile;
+            _mongoCollection.Save(user);
         }
 
         private static byte[] GenerateSaltedHash(string plainText, byte[] salt)
