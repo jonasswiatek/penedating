@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
 using Penedating.Service.Model;
 using Penedating.Service.Model.Contract;
 using Penedating.Service.Model.Exceptions;
@@ -34,13 +35,16 @@ namespace Penedating.Web.Controllers
 
             try
             {
+                var userCredentials = Mapper.Map<UserCredentials>(loginModel);
+
                 //Attempt to login the user. This method will throw an exception if this fails.
-                var user = _userService.Login(loginModel.Username, loginModel.Password);
+                var accessToken = _userService.Login(userCredentials);
 
                 //Please notice that we do not store the user object it self. This is to remain scalable.
                 var userState = new UserState   
                                     {
-                                        UserID = user.UserID
+                                        Email = userCredentials.Email,
+                                        AccessToken = accessToken
                                     };
 
                 Session["UserState"] = userState;
@@ -69,10 +73,11 @@ namespace Penedating.Web.Controllers
                 return View(userCreateModel);
             }
 
-            User user;
+            UserAccessToken accessToken;
             try
             {
-                user = _userService.Create(userCreateModel.Username, userCreateModel.Password);
+                var userCredentials = Mapper.Map<UserCredentials>(userCreateModel);
+                accessToken = _userService.Create(userCredentials);
             }
             catch(UserExistsException uee)
             {
@@ -80,14 +85,9 @@ namespace Penedating.Web.Controllers
                 return View(userCreateModel);
             }
 
-            user.Address = new Address()
-                               {
-                                   City = userCreateModel.City,
-                                   Street = userCreateModel.StreetAddress,
-                                   ZipCode = userCreateModel.ZipCode
-                               };
+            var userProfile = Mapper.Map<UserProfile>(userCreateModel);
 
-            _userService.Update(user);
+            _userService.UpdateProfile(accessToken, userProfile);
 
             //Login the newly created user
             return Login(userCreateModel);

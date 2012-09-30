@@ -8,6 +8,9 @@ namespace Penedating.Web.Models
 {
     public class UserCreateModel : LoginModel
     {
+        [Required(ErrorMessage = "Username is required")]
+        public string Username { get; set; }
+
         [Required]
         public string StreetAddress { get; set; }
 

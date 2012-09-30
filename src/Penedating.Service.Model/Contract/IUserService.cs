@@ -7,8 +7,9 @@ namespace Penedating.Service.Model.Contract
 {
     public interface IUserService
     {
-        User Login(string name, string password);
-        User Create(string name, string password);
-        void Update(User updatedUserProfile);
+        UserAccessToken Login(UserCredentials credentials);
+        UserAccessToken Create(UserCredentials credentials);
+
+        void UpdateProfile(UserAccessToken accessToken, UserProfile updatedProfile);
     }
 }

@@ -8,8 +8,8 @@ namespace Penedating.Web.Models
 {
     public class LoginModel
     {
-        [Required(ErrorMessage = "Username is required")]
-        public string Username { get; set; }
+        [Required(ErrorMessage = "Email is required")]
+        public string Email { get; set; }
 
         [Required]
         [StringLength(32, MinimumLength = 8, ErrorMessage = "Password Length not valud")]

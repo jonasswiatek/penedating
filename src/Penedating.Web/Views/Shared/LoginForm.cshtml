@@ -6,10 +6,10 @@
 {
     <legend>Sing in to find your penetration partner today!</legend>
     <div class="control-group">
-        <label class="control-label" for="login-email">Enter your user name</label>
+        <label class="control-label" for="login-email">Enter your email</label>
         <div class="controls">
-            @Html.TextBoxFor(a => a.Username, new { placeholder = "User name here", id = "login-email" })
-            @Html.ValidationMessageFor(a => a.Username, "User name not valid", new { @class = "label label-important" })
+            @Html.TextBoxFor(a => a.Email, new { placeholder = "Email here", id = "login-email" })
+            @Html.ValidationMessageFor(a => a.Email, "Email not valid", new { @class = "label label-important" })
         </div>
     </div>
     <div class="control-group">

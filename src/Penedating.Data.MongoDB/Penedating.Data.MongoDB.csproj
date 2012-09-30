@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{1EA48F52-4EB2-4C82-AC6C-6DFAE94B20E8}</ProjectGuid>
+    <ProjectGuid>{0F5B0138-39FD-4764-A51C-3A290D6B783B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Penedating.Service.Model</RootNamespace>
-    <AssemblyName>Penedating.Service.Model</AssemblyName>
+    <RootNamespace>Penedating.Data.MongoDB</RootNamespace>
+    <AssemblyName>Penedating.Data.MongoDB</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,6 +31,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MongoDB.Bson">
+      <HintPath>..\packages\mongocsharpdriver.1.6\lib\net35\MongoDB.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver">
+      <HintPath>..\packages\mongocsharpdriver.1.6\lib\net35\MongoDB.Driver.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -40,18 +46,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Address.cs" />
-    <Compile Include="Contract\IUserService.cs" />
-    <Compile Include="Exceptions\InvalidUserCredentialsException.cs" />
-    <Compile Include="Exceptions\UserExistsException.cs" />
-    <Compile Include="Hobby.cs" />
-    <Compile Include="Interest.cs" />
+    <Compile Include="Model\MongoUser.cs" />
+    <Compile Include="MongoUserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserAccessToken.cs" />
-    <Compile Include="UserCredentials.cs" />
-    <Compile Include="UserProfile.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Penedating.Data.MongoDB.Model\Penedating.Data.MongoDB.Model.csproj">
+      <Project>{14B90E5B-C7F7-4058-8FFF-15EB6C353227}</Project>
+      <Name>Penedating.Data.MongoDB.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

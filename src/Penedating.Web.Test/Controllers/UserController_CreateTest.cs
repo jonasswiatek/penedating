@@ -8,6 +8,7 @@ using NUnit.Framework;
 using Penedating.Service.Model;
 using Penedating.Service.Model.Contract;
 using Penedating.Service.Model.Exceptions;
+using Penedating.Web.App_Start;
 using Penedating.Web.Controllers;
 using Penedating.Web.Models;
 
@@ -24,12 +25,18 @@ namespace Penedating.Web.Test.Controllers
 
             var userController = new UserController(userService);
             userController.ViewData.ModelState.AddModelError("rofl", "nao"); //This simulates any validation error
+
             var createModel = new UserCreateModel();
+            var userCredentials = new UserCredentials()
+                                      {
+                                          Email = createModel.Email,
+                                          Password = createModel.Password
+                                      };
 
             var result = userController.Create(createModel) as ViewResult;
-
+            
             //Verify that the controller does not try to call login on IUserService
-            userServiceMock.Verify(a => a.Create(createModel.Username, createModel.Password), Times.Never());
+            userServiceMock.Verify(a => a.Create(userCredentials), Times.Never());
 
             Assert.IsNotNull(result, "Login Action did not yield a ViewResult");
             Assert.AreSame(createModel, result.Model, "Controller did not forward the defective view");
@@ -51,12 +58,18 @@ namespace Penedating.Web.Test.Controllers
                                       ZipCode = 1000
                                   };
 
-            userServiceMock.Setup(a => a.Create(createModel.Username, createModel.Password)).Throws(new UserExistsException());
+            var credentials = new UserCredentials()
+                                  {
+                                      Email = createModel.Email,
+                                      Password = createModel.Password
+                                  };
+
+            userServiceMock.Setup(a => a.Create(credentials)).Throws(new UserExistsException());
             var viewResult = userController.Create(createModel) as ViewResult;
 
             Assert.IsNotNull(viewResult, "Controller did not return a ViewResult");
             Assert.AreSame(createModel, viewResult.Model);
-            userServiceMock.Verify(a => a.Create(createModel.Username, createModel.Password));
+            userServiceMock.Verify(a => a.Create(credentials));
         }
 
         [Test]
@@ -80,21 +93,34 @@ namespace Penedating.Web.Test.Controllers
                 ZipCode = 1000
             };
 
-            var testUser = new User("userid-12345", createModel.Username);
-            userServiceMock.Setup(a => a.Create(createModel.Username, createModel.Password)).Returns(testUser);
-            userServiceMock.Setup(a => a.Login(createModel.Username, createModel.Password)).Returns(testUser);
+            var credentials = new UserCredentials()
+                                  {
+                                      Email = createModel.Email,
+                                      Password = createModel.Password
+                                  };
+
+            var accessToken = new UserAccessToken("123456");
+
+            userServiceMock.Setup(a => a.Create(credentials)).Returns(accessToken);
+            userServiceMock.Setup(a => a.Login(credentials)).Returns(accessToken);
 
             var viewResult = userController.Create(createModel) as RedirectToRouteResult;
 
             Assert.IsNotNull(viewResult, "Controller did not return a RedirectToRouteResult");
 
-            userServiceMock.Verify(a => a.Create(createModel.Username, createModel.Password));
-            userServiceMock.Verify(a => a.Update(testUser));
+            var userProfile = new UserProfile()
+                                  {
+                                      Username = createModel.Username,
+                                      Address = new Address()
+                                                    {
+                                                        Street = createModel.StreetAddress,
+                                                        City = createModel.City,
+                                                        ZipCode = createModel.ZipCode
+                                                    }
+                                  };
 
-            Assert.IsNotNull(testUser.Address, "Controller did not initialize user property on object returned from IUserService");
-            Assert.AreEqual(testUser.Address.Street, createModel.StreetAddress);
-            Assert.AreEqual(testUser.Address.City, createModel.City);
-            Assert.AreEqual(testUser.Address.ZipCode, createModel.ZipCode);
+            userServiceMock.Verify(a => a.Create(credentials));
+            userServiceMock.Verify(a => a.UpdateProfile(accessToken, userProfile));
         }
     }
 }
