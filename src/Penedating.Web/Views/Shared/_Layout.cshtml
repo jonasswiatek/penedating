@@ -24,7 +24,7 @@
                         </ul>
 
                         <ul class="nav pull-right" class="dropdown">
-                            @if (UserState.Current != null)
+                            @if (UserState.IsAvailable)
                             {
                                 <li>
                                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">@UserState.Current.Email <i class="icon-chevron-down icon-white"></i></a>

@@ -1,5 +1,54 @@
-﻿@{
-    ViewBag.Title = "Index";
+﻿@model Penedating.Web.Models.ProfileViewModel
+@{
+    ViewBag.Title = "Your Profile";
 }
-
-<h2>Me me</h2>
+<div class="row">
+    <div class="span12">
+        <div class="hero-unit">
+            <h1>Ni nao!</h1>
+            <p>
+                An old Chinese Proverb says: "Only the good dater gets the date". Make sure your profile is awesome.
+            </p>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="span12">
+        @using (Html.BeginForm("Index", "Me", FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            <div class="control-group">
+                <label class="control-label" for="me-username">Desired User Name</label>
+                <div class="controls">
+                    @Html.TextBoxFor(a => a.Username, new { placeholder = "User name here", id = "me-username" })
+                    @Html.ValidationMessageFor(a => a.Username, null, new { @class = "label label-important" })
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="me-street">Street Address</label>
+                <div class="controls">
+                    @Html.TextBoxFor(a => a.StreetAddress, new { placeholder = "Street Address", id = "me-street" })
+                    @Html.ValidationMessageFor(a => a.StreetAddress, null, new { @class = "label label-important" })
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="me-city">City</label>
+                <div class="controls">
+                    @Html.TextBoxFor(a => a.City, new { placeholder = "City", id = "me-city" })
+                    @Html.ValidationMessageFor(a => a.City, null, new { @class = "label label-important" })
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="me-zip">Zip Code</label>
+                <div class="controls">
+                    @Html.TextBoxFor(a => a.ZipCode, new { placeholder = "Zip Code", id = "me-zip" })
+                    @Html.ValidationMessageFor(a => a.ZipCode, null, new { @class = "label label-important" })
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>

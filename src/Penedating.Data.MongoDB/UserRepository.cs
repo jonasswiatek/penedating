@@ -96,6 +96,19 @@ namespace Penedating.Data.MongoDB
                        };
         }
 
+        public UserProfile GetUserProfile(string userId)
+        {
+            var query = _mongoCollection.AsQueryable();
+            var mongoUser = query.SingleOrDefault(a => a.UserID == new BsonObjectId(userId));
+
+            if (mongoUser == null)
+            {
+                throw new UserEntityNotFoundException();
+            }
+
+            return mongoUser.UserProfile;
+        }
+
         public void UpdateProfile(string userId, UserProfile profile)
         {
             var query = _mongoCollection.AsQueryable();

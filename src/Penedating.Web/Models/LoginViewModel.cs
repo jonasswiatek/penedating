@@ -7,7 +7,7 @@ using Penedating.Web.Models.DataAnnotations;
 
 namespace Penedating.Web.Models
 {
-    public class LoginModel
+    public class LoginViewModel
     {
         [Required(ErrorMessage = "Email is required")]
         [EmailValidation(ErrorMessage = "Email not valid")]

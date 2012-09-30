@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using System;
+using System.Web;
 using Penedating.Service.Model;
 
 namespace Penedating.Web.Security
@@ -13,8 +14,20 @@ namespace Penedating.Web.Security
             get
             {
                 var userState = HttpContext.Current.Session[MvcApplication.UserStateCookieName] as UserState;
+                if(userState == null)
+                    throw new Exception("No UserState available");
 
                 return userState;
+            }
+        }
+
+        public static bool IsAvailable
+        {
+            get
+            {
+                var userState = HttpContext.Current.Session[MvcApplication.UserStateCookieName] as UserState;
+
+                return userState != null;
             }
         }
     }

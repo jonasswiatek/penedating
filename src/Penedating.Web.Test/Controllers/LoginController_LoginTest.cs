@@ -27,7 +27,7 @@ namespace Penedating.Web.Test.Controllers
 
             var userController = new LoginController(userService);
             userController.ViewData.ModelState.AddModelError("rofl", "nao"); //This simulates any validation error
-            var loginModel = new LoginModel();
+            var loginModel = new LoginViewModel();
             var credentials = new UserCredentials()
                                   {
                                       Email = loginModel.Email,
@@ -51,7 +51,7 @@ namespace Penedating.Web.Test.Controllers
 
             var userController = new LoginController(userService);
 
-            var loginModel = new LoginModel()
+            var loginModel = new LoginViewModel()
             {
                 Email = "testuser",
                 Password = "testpasswordrofl"
@@ -82,7 +82,7 @@ namespace Penedating.Web.Test.Controllers
 
             var userController = new LoginController(userService) {ControllerContext = controllerContextMock.Object};
 
-            var loginModel = new LoginModel()
+            var loginModel = new LoginViewModel()
                                  {
                                      Email = "testuser",
                                      Password = "testpasswordrofl"

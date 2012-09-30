@@ -11,7 +11,7 @@ namespace Penedating.Web.Controllers
     {
         public ActionResult Index()
         {
-            if(UserState.Current != null)
+            if(UserState.IsAvailable)
             {
                 return RedirectToAction("Index", "Me");
             }

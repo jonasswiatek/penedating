@@ -10,6 +10,7 @@ namespace Penedating.Data.MongoDB.Model.Contract
         User Login(string email, string password);
         User Create(string email, string password);
         User GetUserByID(string userId);
+        UserProfile GetUserProfile(string userId);
         void UpdateProfile(string userId, UserProfile profile);
     }
 }

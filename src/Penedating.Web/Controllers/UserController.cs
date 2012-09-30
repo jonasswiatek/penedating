@@ -27,26 +27,26 @@ namespace Penedating.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(UserCreateModel userCreateModel)
+        public ActionResult Index(CreateViewModel createViewModel)
         {
             if(!ModelState.IsValid)
             {
-                return View(userCreateModel);
+                return View(createViewModel);
             }
 
             UserAccessToken accessToken;
             try
             {
-                var userCredentials = Mapper.Map<UserCredentials>(userCreateModel);
+                var userCredentials = Mapper.Map<UserCredentials>(createViewModel);
                 accessToken = _userService.Create(userCredentials);
             }
             catch(UserExistsException uee)
             {
                 ModelState.AddModelError("email", "Email already in use");
-                return View(userCreateModel);
+                return View(createViewModel);
             }
 
-            var userProfile = Mapper.Map<UserProfile>(userCreateModel);
+            var userProfile = Mapper.Map<UserProfile>(createViewModel);
 
             _userService.UpdateProfile(accessToken, userProfile);
 

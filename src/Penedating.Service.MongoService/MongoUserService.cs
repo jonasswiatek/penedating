@@ -51,7 +51,7 @@ namespace Penedating.Service.MongoService
 
         public UserProfile GetUserProfile(UserAccessToken userAccessToken)
         {
-            var userProfile = _userRepository.GetUserByID(userAccessToken.Ticket);
+            var userProfile = _userRepository.GetUserProfile(userAccessToken.Ticket);
 
             return Mapper.Map<UserProfile>(userProfile);
         }

@@ -6,7 +6,7 @@ using System.Web;
 
 namespace Penedating.Web.Models
 {
-    public class UserCreateModel : LoginModel
+    public class CreateViewModel : LoginViewModel
     {
         [Required(ErrorMessage = "Username not filled")]
         public string Username { get; set; }

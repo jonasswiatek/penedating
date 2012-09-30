@@ -27,16 +27,16 @@ namespace Penedating.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(LoginModel loginModel)
+        public ActionResult Index(LoginViewModel loginViewModel)
         {
             if(!ModelState.IsValid)
             {
-                return View(loginModel);
+                return View(loginViewModel);
             }
 
             try
             {
-                var userCredentials = Mapper.Map<UserCredentials>(loginModel);
+                var userCredentials = Mapper.Map<UserCredentials>(loginViewModel);
 
                 //Attempt to login the user. This method will throw an exception if this fails.
                 var accessToken = _userService.Login(userCredentials);
@@ -56,7 +56,7 @@ namespace Penedating.Web.Controllers
             {
                 ModelState.AddModelError("email", "Invalid email or password");
 
-                return View(loginModel);
+                return View(loginViewModel);
             }
         }
     }
