@@ -95,11 +95,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\HtmlHelperExtensions.cs" />
     <Compile Include="Models\DataAnnotations\EmailValidationAttribute.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\ProfileViewModel.cs" />
     <Compile Include="Models\CreateViewModel.cs" />
-    <Compile Include="Security\UserState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\LoginRequiredAttribute.cs" />
   </ItemGroup>

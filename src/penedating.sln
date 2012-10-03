@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Penedating.Service.MongoService", "Penedating.Service.MongoService\Penedating.Service.MongoService.csproj", "{E0EE05F5-FF18-43FC-BB82-7F3F8B42B402}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Penedating.Service.HttpUserAccessTokenService", "Penedating.Service.HttpUserAccessTokenService\Penedating.Service.HttpUserAccessTokenService.csproj", "{CDF280D3-981F-496B-B9FD-9452DA7AC949}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = penedating.vsmdi
@@ -54,6 +56,10 @@ Global
 		{E0EE05F5-FF18-43FC-BB82-7F3F8B42B402}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0EE05F5-FF18-43FC-BB82-7F3F8B42B402}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0EE05F5-FF18-43FC-BB82-7F3F8B42B402}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDF280D3-981F-496B-B9FD-9452DA7AC949}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDF280D3-981F-496B-B9FD-9452DA7AC949}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDF280D3-981F-496B-B9FD-9452DA7AC949}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDF280D3-981F-496B-B9FD-9452DA7AC949}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Penedating.Service.Model;
+using Penedating.Service.Model.Contract;
 using Penedating.Web.Models;
 
 namespace Penedating.Web.Security
@@ -12,8 +14,10 @@ namespace Penedating.Web.Security
     {
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            var userState = filterContext.HttpContext.Session[MvcApplication.UserStateCookieName] as UserState;
-            if(userState == null)
+            var accessTokenProvider = DependencyResolver.Current.GetService<IUserAccessTokenProvider>();
+            UserAccessToken userAccessToken;
+
+            if(!accessTokenProvider.TryGetAccessToken(out userAccessToken))
             {
                 filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new
                                                                                               {

@@ -8,6 +8,7 @@ namespace Penedating.Service.Model
     public class UserAccessToken
     {
         public string Ticket { get; private set; }
+        public string Email { get; set; }
 
         public UserAccessToken()
         {

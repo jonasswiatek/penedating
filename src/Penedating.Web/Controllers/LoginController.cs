@@ -15,10 +15,12 @@ namespace Penedating.Web.Controllers
     public class LoginController : Controller
     {
         private readonly IUserService _userService;
+        private readonly IUserAccessTokenProvider _userAccessTokenProvider;
 
-        public LoginController(IUserService userService)
+        public LoginController(IUserService userService, IUserAccessTokenProvider userAccessTokenProvider)
         {
             _userService = userService;
+            _userAccessTokenProvider = userAccessTokenProvider;
         }
 
         public ActionResult Index()
@@ -40,15 +42,7 @@ namespace Penedating.Web.Controllers
 
                 //Attempt to login the user. This method will throw an exception if this fails.
                 var accessToken = _userService.Login(userCredentials);
-
-                //Please notice that we do not store the user object it self. This is to remain scalable.
-                var userState = new UserState   
-                                    {
-                                        Email = userCredentials.Email,
-                                        AccessToken = accessToken
-                                    };
-
-                Session[MvcApplication.UserStateCookieName] = userState;
+                _userAccessTokenProvider.SetUserAccessToken(accessToken);
             
                 return RedirectToAction("Index", "Home");
             }

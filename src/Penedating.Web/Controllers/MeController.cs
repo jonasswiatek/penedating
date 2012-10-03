@@ -15,16 +15,18 @@ namespace Penedating.Web.Controllers
     public class MeController : Controller
     {
         private readonly IUserService _userService;
+        private readonly IUserAccessTokenProvider _accessTokenProvider;
 
-        public MeController(IUserService userService)
+        public MeController(IUserService userService, IUserAccessTokenProvider accessTokenProvider)
         {
             _userService = userService;
+            _accessTokenProvider = accessTokenProvider;
         }
 
         public ActionResult Index()
         {
-            var userState = UserState.Current;
-            var userProfile = _userService.GetUserProfile(userState.AccessToken);
+            var accessToken = _accessTokenProvider.GetAccessToken();
+            var userProfile = _userService.GetUserProfile(accessToken);
             var profileViewModel = Mapper.Map<ProfileViewModel>(userProfile);
 
             return View(profileViewModel);
@@ -39,14 +41,16 @@ namespace Penedating.Web.Controllers
             }
 
             var userProfile = Mapper.Map<UserProfile>(profileViewModel);
-            _userService.UpdateProfile(UserState.Current.AccessToken, userProfile);
+            var accessToken = _accessTokenProvider.GetAccessToken();
+
+            _userService.UpdateProfile(accessToken, userProfile);
 
             return RedirectToAction("Index");
         }
 
         public ActionResult Logout()
         {
-            Session.Abandon();
+            _accessTokenProvider.DestroyAccessToken();
 
             return RedirectToAction("Index", "Home");
         }

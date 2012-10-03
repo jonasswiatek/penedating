@@ -80,8 +80,7 @@ namespace Penedating.Web.Test.Controllers
             var userService = userServiceMock.Object;
 
             var controllerContextMock = new Mock<ControllerContext>();
-            controllerContextMock.SetupSet(a => a.HttpContext.Session["UserState"] = It.IsAny<UserState>()).Verifiable("Controllre did not set session state");
-
+            
             var userController = new UserController(userService);
             userController.ControllerContext = controllerContextMock.Object;
 

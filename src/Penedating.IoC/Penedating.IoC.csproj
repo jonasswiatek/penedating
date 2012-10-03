@@ -68,6 +68,10 @@
       <Project>{0F5B0138-39FD-4764-A51C-3A290D6B783B}</Project>
       <Name>Penedating.Data.MongoDB</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Penedating.Service.HttpUserAccessTokenService\Penedating.Service.HttpUserAccessTokenService.csproj">
+      <Project>{CDF280D3-981F-496B-B9FD-9452DA7AC949}</Project>
+      <Name>Penedating.Service.HttpUserAccessTokenService</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Penedating.Service.Model\Penedating.Service.Model.csproj">
       <Project>{1EA48F52-4EB2-4C82-AC6C-6DFAE94B20E8}</Project>
       <Name>Penedating.Service.Model</Name>

@@ -22,10 +22,12 @@ namespace Penedating.Web.Test.Controllers
         [Test]
         public void Login_TestFormValidation()
         {
+            var accessTokenProviderMock = new Mock<IUserAccessTokenProvider>();
+
             var userServiceMock = new Mock<IUserService>();
             var userService = userServiceMock.Object;
 
-            var userController = new LoginController(userService);
+            var userController = new LoginController(userService, accessTokenProviderMock.Object);
             userController.ViewData.ModelState.AddModelError("rofl", "nao"); //This simulates any validation error
             var loginModel = new LoginViewModel();
             var credentials = new UserCredentials()
@@ -46,10 +48,13 @@ namespace Penedating.Web.Test.Controllers
         [Test]
         public void Login_InvalidCredentials()
         {
+            var accessTokenProviderMock = new Mock<IUserAccessTokenProvider>();
+            var accessTokenProvider = accessTokenProviderMock.Object;
+
             var userServiceMock = new Mock<IUserService>();
             var userService = userServiceMock.Object;
 
-            var userController = new LoginController(userService);
+            var userController = new LoginController(userService, accessTokenProvider);
 
             var loginModel = new LoginViewModel()
             {
@@ -74,13 +79,13 @@ namespace Penedating.Web.Test.Controllers
         [Test]
         public void Login_Success()
         {
+            var accessTokenProviderMock = new Mock<IUserAccessTokenProvider>();
+            var accessTokenProvider = accessTokenProviderMock.Object;
+
             var userServiceMock = new Mock<IUserService>();
             var userService = userServiceMock.Object;
 
-            var controllerContextMock = new Mock<ControllerContext>();
-            controllerContextMock.SetupSet(a => a.HttpContext.Session["UserState"] = It.IsAny<UserState>()).Verifiable("Controllre did not set session state");
-
-            var userController = new LoginController(userService) {ControllerContext = controllerContextMock.Object};
+            var userController = new LoginController(userService, accessTokenProvider);
 
             var loginModel = new LoginViewModel()
                                  {
@@ -108,7 +113,7 @@ namespace Penedating.Web.Test.Controllers
             userServiceMock.Verify(a => a.Login(credentials), Times.Once());
 
             //Assert that the controller set the session state correctly
-            controllerContextMock.Verify();
+            accessTokenProviderMock.Verify(a => a.SetUserAccessToken(accessToken));
         }
     }
 }

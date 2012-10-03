@@ -36,10 +36,7 @@ namespace Penedating.Data.MongoDB
                 throw new UserEntityNotFoundException();
             }
 
-            var salt = mongoUser.PasswordSalt;
-            var hash = GenerateSaltedHash(password, salt);
-
-            if(!hash.SequenceEqual(mongoUser.PasswordHash))
+            if (!PasswordHash.ValidatePassword(password, mongoUser.PasswordHash))
             {
                 throw new UserEntityNotFoundException();
             }
@@ -60,13 +57,11 @@ namespace Penedating.Data.MongoDB
                 throw new UserEntityAlreadyExistsException();
             }
 
-            var passwordSalt = GenerateSalt();
-            var passwordHash = GenerateSaltedHash(password, passwordSalt);
+            var passwordHash = PasswordHash.CreateHash(password);
 
             var user = new PenedatingMongoUser()
                            {
                                Email = email,
-                               PasswordSalt = passwordSalt,
                                PasswordHash = passwordHash
                            };
 
@@ -120,25 +115,6 @@ namespace Penedating.Data.MongoDB
 
             user.UserProfile = profile;
             _mongoCollection.Save(user);
-        }
-
-        private static byte[] GenerateSaltedHash(string plainText, byte[] salt)
-        {
-            HashAlgorithm algorithm = new SHA256Managed();
-            var password = Encoding.UTF8.GetBytes(plainText);
-
-            var salted = password.Concat(salt).ToArray();
-            return algorithm.ComputeHash(salted);
-        }
-
-        private static byte[] GenerateSalt()
-        {
-            var salt = new byte[25];
-
-            var rng = new RNGCryptoServiceProvider();
-            rng.GetBytes(salt);
-
-            return salt;
         }
     }
 }
