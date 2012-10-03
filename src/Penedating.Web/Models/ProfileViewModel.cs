@@ -19,5 +19,9 @@ namespace Penedating.Web.Models
 
         [Range(999, 9999, ErrorMessage = "Your Zipcode must be between 999-9999")]
         public int ZipCode { get; set; }
+
+        public IEnumerable<string> Hobbies { get; set; }
+        public bool Friendship { get; set; }
+        public bool Romance { get; set; }
     }
 }

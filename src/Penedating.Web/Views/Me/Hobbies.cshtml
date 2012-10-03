@@ -1,0 +1,9 @@
+﻿@model IEnumerable<string>
+@{
+    ViewBag.Title = "Hobbies";
+    Layout = null;
+}
+@foreach(var hobby in Model)
+{
+    <span class="label label-info">@hobby.ToUpper() <a href="#" onclick="javascript:addDeleteHobby('@Url.Action("Hobby", "Me")', '@hobby', true);"><i class="icon-remove-sign icon-white"></i></a></span>
+}

@@ -40,12 +40,45 @@ namespace Penedating.Web.Controllers
                 return View(profileViewModel);
             }
 
-            var userProfile = Mapper.Map<UserProfile>(profileViewModel);
+            //TODO: This is just inefficient. The service layer and repository design needs to support spot updating stuff like this much better.
             var accessToken = _accessTokenProvider.GetAccessToken();
+            var userProfile = _userService.GetUserProfile(accessToken);
+            var newUserProfile = Mapper.Map<UserProfile>(profileViewModel);
+            newUserProfile.Hobbies = userProfile.Hobbies;
+            newUserProfile.Interests.Clear();
 
-            _userService.UpdateProfile(accessToken, userProfile);
+            if(profileViewModel.Friendship)
+            {
+                newUserProfile.Interests.Add(Interest.Friendship);
+            }
+
+            if (profileViewModel.Romance)
+            {
+                newUserProfile.Interests.Add(Interest.Romance);
+            }
+
+            _userService.UpdateProfile(accessToken, newUserProfile);
 
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult Hobby(string hobby, bool remove)
+        {
+            var accessToken = _accessTokenProvider.GetAccessToken();
+            var profile = _userService.GetUserProfile(accessToken);
+
+            if(remove)
+            {
+                profile.Hobbies.Remove(hobby);
+            }
+            else
+            {
+                profile.Hobbies.Add(hobby);
+            }
+            
+            _userService.UpdateProfile(accessToken, profile);
+            return View("Hobbies", profile.Hobbies);
         }
 
         public ActionResult Logout()

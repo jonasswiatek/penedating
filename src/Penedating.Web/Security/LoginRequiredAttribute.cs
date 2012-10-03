@@ -21,8 +21,8 @@ namespace Penedating.Web.Security
             {
                 filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new
                                                                                               {
-                                                                                                  controller = "User",
-                                                                                                  action = "Login"
+                                                                                                  controller = "Login",
+                                                                                                  action = "Index"
                                                                                               }));
             }
         }

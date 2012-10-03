@@ -13,7 +13,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="span12">
+    <div class="span6">
         @using (Html.BeginForm("Index", "Me", FormMethod.Post, new { @class = "form-horizontal" }))
         {
             <div class="control-group">
@@ -45,10 +45,31 @@
                 </div>
             </div>
             <div class="control-group">
+                <label class="control-label" for="me-zip">I am interested in</label>
+                <div class="controls">
+                    <label class="checkbox">
+                        @Html.CheckBoxFor(a => a.Friendship) Friendship
+                    </label>
+                    <label class="checkbox">
+                        @Html.CheckBoxFor(a => a.Romance) Romance
+                    </label>
+                </div>
+            </div>
+            <div class="control-group">
                 <div class="controls">
                     <button type="submit" class="btn btn-primary">Update</button>
                 </div>
             </div>
         }
+    </div>
+    <div class="span6">
+        <h2>Your hobbies</h2>
+        <div id="me-hobbies">
+            @Html.Partial("Hobbies", Model.Hobbies)
+        </div>
+        <h4>Add another</h4>
+        <div class="input-append">
+          <input class="span2" id="hobby-new" size="16" type="text"><button class="btn" type="button" onclick="javascript:addDeleteHobby('@Url.Action("Hobby", "Me")', $('#hobby-new').val(), false);">Add hobby</button>
+        </div>
     </div>
 </div>

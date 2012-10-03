@@ -106,15 +106,9 @@ namespace Penedating.Data.MongoDB
 
         public void UpdateProfile(string userId, UserProfile profile)
         {
-            var query = _mongoCollection.AsQueryable();
-            var user = query.SingleOrDefault(a => a.UserID == new BsonObjectId(userId));
-            if (user == null)
-            {
-                throw new UserEntityNotFoundException();
-            }
-
-            user.UserProfile = profile;
-            _mongoCollection.Save(user);
+            var query = Query.EQ("_id", new BsonObjectId(userId));
+            var update = Update.Set("UserProfile", profile.ToBsonDocument());
+            _mongoCollection.FindAndModify(query, SortBy.Null, update);
         }
     }
 }

@@ -9,8 +9,14 @@ namespace Penedating.Service.Model
     {
         public string Username { get; set; }
         public Address Address { get; set; }
-        public IEnumerable<Hobby> Hobbies { get; set; }
-        public IEnumerable<Interest> Interests { get; set; }
+        public IList<string> Hobbies { get; set; }
+        public IList<Interest> Interests { get; set; } 
+
+        public UserProfile()
+        {
+            Hobbies = new List<string>();
+            Interests = new List<Interest>();
+        }
 
         public override bool Equals(object obj)
         {

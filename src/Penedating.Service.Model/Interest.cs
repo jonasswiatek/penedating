@@ -5,9 +5,10 @@ using System.Text;
 
 namespace Penedating.Service.Model
 {
+    [Flags]
     public enum Interest
     {
-        ExperienceExchange,
-        Interactive
+        Friendship = 1,
+        Romance = 2
     }
 }
