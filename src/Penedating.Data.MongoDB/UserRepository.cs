@@ -27,10 +27,10 @@ namespace Penedating.Data.MongoDB
             _mongoCollection = _database.GetCollection<PenedatingMongoUser>("users");
         }
 
-        public User Login(string username, string password)
+        public User Login(string email, string password)
         {
             var query = _mongoCollection.AsQueryable();
-            var mongoUser = query.SingleOrDefault(a => a.Email == username);
+            var mongoUser = query.SingleOrDefault(a => a.Email == email);
             if(mongoUser == null)
             {
                 throw new UserEntityNotFoundException();

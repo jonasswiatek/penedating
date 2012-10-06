@@ -23,11 +23,12 @@ namespace Penedating.Web.Test.Controllers
         public void Login_TestFormValidation()
         {
             var accessTokenProviderMock = new Mock<IUserAccessTokenProvider>();
+            var accessTokenProvider = accessTokenProviderMock.Object;
 
             var userServiceMock = new Mock<IUserService>();
             var userService = userServiceMock.Object;
 
-            var userController = new LoginController(userService, accessTokenProviderMock.Object);
+            var userController = new LoginController(userService, accessTokenProvider);
             userController.ViewData.ModelState.AddModelError("rofl", "nao"); //This simulates any validation error
             var loginModel = new LoginViewModel();
             var credentials = new UserCredentials()
