@@ -1,6 +1,12 @@
+using System.Collections.Generic;
+using System.Net;
+using Enyim.Caching;
+using Enyim.Caching.Configuration;
+using Enyim.Caching.Memcached;
 using Penedating.Data.MongoDB;
 using Penedating.Data.MongoDB.Model.Contract;
 using Penedating.Service.HttpUserAccessTokenService;
+using Penedating.Service.HttpUserAccessTokenService.Transcoders;
 using Penedating.Service.Model.Contract;
 using Penedating.Service.MongoService;
 using StructureMap;
@@ -22,8 +28,17 @@ namespace Penedating.IoC.DependencyResolution
                                                     .Ctor<string>("databaseName").Is("penedating");
 
                                              x.For<IUserAccessTokenProvider>()
-                                                 .Use<AspNetSessionUserAccessTokenProvider>()
-                                                    .Ctor<string>("sessionKeyName").Is("penedating-auth");
+                                                 .Use<MemcachedAccessTokenProvider>()
+                                                    .Ctor<string>("cookieName").Is("penedating-auth");
+
+                                             var memcachedConfig = new MemcachedClientConfiguration
+                                                                       {
+                                                                           Protocol = MemcachedProtocol.Binary,
+                                                                           Transcoder = new NewtonsoftTranscoder()
+                                                                       };
+                                             memcachedConfig.AddServer("localhost", 11211);
+
+                                             x.For<IMemcachedClient>().Singleton().Use(new MemcachedClient(memcachedConfig));
                                          });
 
             return ObjectFactory.Container;

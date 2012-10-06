@@ -31,6 +31,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Enyim.Caching">
+      <HintPath>..\packages\EnyimMemcached.2.12\lib\net35\Enyim.Caching.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.9\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
@@ -42,13 +48,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AspNetSessionUserAccessTokenProvider.cs" />
+    <Compile Include="Exceptions\NoUserAccessTokenFoundException.cs" />
+    <Compile Include="MemcachedAccessTokenProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Transcoders\NewtonsoftProvider.cs" />
+    <Compile Include="Transcoders\NewtonsoftTranscoder.cs" />
+    <Compile Include="Exceptions\UnknownUserTokenHashException.cs" />
+    <Compile Include="Exceptions\UserTokenPersistenceFailedExpcetion.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Penedating.Service.Model\Penedating.Service.Model.csproj">
       <Project>{1EA48F52-4EB2-4C82-AC6C-6DFAE94B20E8}</Project>
       <Name>Penedating.Service.Model</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
