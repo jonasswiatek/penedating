@@ -17,6 +17,7 @@ namespace Penedating.IoC.DependencyResolution
     {
         public static IContainer Initialize()
         {
+            log4net.Config.XmlConfigurator.Configure();
             ObjectFactory.Initialize(x =>
                                          {
                                              x.For<IUserService>()

@@ -32,6 +32,7 @@ namespace Penedating.Web
 
         protected void Application_Start()
         {
+            
             AreaRegistration.RegisterAllAreas();
 
             RegisterGlobalFilters(GlobalFilters.Filters);
