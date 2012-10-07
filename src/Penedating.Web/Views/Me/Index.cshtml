@@ -1,6 +1,7 @@
 ﻿@model Penedating.Web.Models.ProfileViewModel
 @{
     ViewBag.Title = "Your Profile";
+    var user = Html.GetUserAccessToken();
 }
 <div class="row">
     <div class="span12">
@@ -58,6 +59,7 @@
             <div class="control-group">
                 <div class="controls">
                     <button type="submit" class="btn btn-primary">Update</button>
+                    <a href="#deleteConfirmModal" role="button" class="btn btn-danger" data-toggle="modal">Delete my Account</a>
                 </div>
             </div>
         }
@@ -69,7 +71,24 @@
         </div>
         <h4>Add another</h4>
         <div class="input-append">
-          <input class="span2" id="hobby-new" size="16" type="text"><button class="btn" type="button" onclick="javascript:addDeleteHobby('@Url.Action("Hobby", "Me")', $('#hobby-new').val(), false);">Add hobby</button>
+            <input class="span2" id="hobby-new" size="16" type="text"><button class="btn" type="button" onclick="javascript:addDeleteHobby('@Url.Action("Hobby", "Me")', $('#hobby-new').val(), false);">Add hobby</button>
         </div>
+    </div>
+</div>
+<div class="modal hide fade" id="deleteConfirmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Really delete your account?</h3>
+    </div>
+    <div class="modal-body">
+        <p>Fair enough, we ain't in the business of judging. If you want to really delete your account then press the red button below.</p>
+        @if(user.IsAdmin)
+        {
+            <p><strong>Hey, you're an administrator.</strong> Because I don't want to have to repromote you to administrators all the time, this feature won't actually delete you. But feel free to press the red button anyway!</p>
+        }
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Aw hell no!</button>
+        <a class="btn btn-danger" href="@Url.Action("DeleteAccount", new { auth = user.Ticket })">Yesyes! Delete me already</a>
     </div>
 </div>

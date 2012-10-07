@@ -75,6 +75,11 @@ namespace Penedating.Data.MongoDB
             throw new Exception("Something went wrong. Amagad");
         }
 
+        public void DeleteUser(string userId)
+        {
+            _mongoCollection.Remove(Query.EQ("_id", new BsonObjectId(userId)));
+        }
+
         public User GetUserByID(string userId)
         {
             var query = _mongoCollection.AsQueryable();

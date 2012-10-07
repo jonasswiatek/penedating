@@ -21,5 +21,7 @@ namespace Penedating.Service.Model.Contract
 
         UserProfile GetUserProfile(UserAccessToken userCredentials);
         void UpdateProfile(UserAccessToken accessToken, UserProfile updatedProfile);
+
+        void DeleteUser(UserAccessToken accessToken);
     }
 }
