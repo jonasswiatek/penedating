@@ -97,6 +97,7 @@ namespace Penedating.Service.MongoService
         public void DeleteUser(UserAccessToken accessToken)
         {
             _userRepository.DeleteUser(accessToken.Ticket);
+            _logger.Info("Deleted user account: " + accessToken.Email);
         }
     }
 }
