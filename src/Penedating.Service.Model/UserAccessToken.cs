@@ -9,6 +9,7 @@ namespace Penedating.Service.Model
     {
         public string Ticket { get; set; }
         public string Email { get; set; }
+        public bool IsAdmin { get; set; }
 
         public UserAccessToken()
         {

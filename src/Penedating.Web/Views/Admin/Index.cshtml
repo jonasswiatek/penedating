@@ -1,0 +1,32 @@
+﻿@model Penedating.Web.Models.AdminViewModel
+@{
+    ViewBag.Title = "Index";
+}
+<div class="row">
+    <div class="span12">
+        <div class="hero-unit">
+            <h1>Greetings comrade!</h1>
+            <p>
+                Welcome to the inner sanctum. The Bastard Operator from Hell board. Go forth. Go forth and operate.
+            </p>
+        </div>
+    </div>
+</div>
+<table class="table table-striped">
+<caption>Impersonate an existing user</caption>
+  <thead>
+    <tr>
+      <th>Username</th>
+      <th>Impersonate</th>
+    </tr>
+  </thead>
+    <tbody>
+        @foreach(var user in Model.Users)
+        {
+            <tr>
+                <td>@user.Email</td>
+                <td><a href="@Url.Action("Impersonate", "Admin", new {ticket = @user.UserID})">Impersonate</a></td>
+            </tr> 
+        }
+    </tbody>
+</table>

@@ -11,23 +11,13 @@ namespace Penedating.Web.Helpers
 {
     public static class HtmlHelperExtensions
     {
-        public static bool IsUserLoggedIn(this HtmlHelper htmlHelper)
+        public static UserAccessToken GetUserAccessToken(this HtmlHelper htmlHelper)
         {
             var accessTokenProvider = DependencyResolver.Current.GetService<IUserAccessTokenProvider>();
             UserAccessToken accessToken;
-            return accessTokenProvider.TryGetAccessToken(out accessToken);
-        }
+            accessTokenProvider.TryGetAccessToken(out accessToken);
 
-        public static string GetUserEmail(this HtmlHelper htmlHelper)
-        {
-            var accessTokenProvider = DependencyResolver.Current.GetService<IUserAccessTokenProvider>();
-            UserAccessToken accessToken;
-            if(accessTokenProvider.TryGetAccessToken(out accessToken))
-            {
-                return accessToken.Email;
-            }
-
-            throw new UserAccessTokenNotFoundException();
+            return accessToken;
         }
     }
 }

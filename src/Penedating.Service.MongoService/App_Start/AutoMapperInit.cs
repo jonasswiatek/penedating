@@ -14,7 +14,8 @@ namespace Penedating.Service.MongoService.App_Start
         {
             Mapper.CreateMap<Data.MongoDB.Model.User, Model.UserAccessToken>()
                 .ForMember(a => a.Ticket, b => b.MapFrom(c => c.UserID))
-                .ForMember(a => a.Email, b => b.MapFrom(c => c.Email));
+                .ForMember(a => a.Email, b => b.MapFrom(c => c.Email))
+                .ForMember(a => a.IsAdmin, b => b.MapFrom(c => c.IsAdmin));
 
             Mapper.CreateMap<Data.MongoDB.Model.UserProfile, Model.UserProfile>()
                 .ForMember(a => a.Username, b => b.MapFrom(c => c.Username))

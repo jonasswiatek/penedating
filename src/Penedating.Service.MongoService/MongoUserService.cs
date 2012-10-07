@@ -49,6 +49,25 @@ namespace Penedating.Service.MongoService
             }
         }
 
+        public UserAccessToken ImpersonateUser(string userId)
+        {
+            try
+            {
+                var user = _userRepository.GetUserByID(userId);
+
+                return Mapper.Map<UserAccessToken>(user);
+            }
+            catch (UserEntityNotFoundException entityNotFoundException)
+            {
+                throw new InvalidUserCredentialsException();
+            }
+        }
+
+        public IEnumerable<UserAccessToken> GetUsers()
+        {
+            return _userRepository.GetAllUsers().Select(Mapper.Map<UserAccessToken>);
+        }
+
         public UserProfile GetUserProfile(UserAccessToken userAccessToken)
         {
             var userProfile = _userRepository.GetUserProfile(userAccessToken.Ticket);

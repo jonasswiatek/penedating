@@ -44,7 +44,8 @@ namespace Penedating.Data.MongoDB
             return new User()
                        {
                            UserID = mongoUser.UserID.ToString(),
-                           Email = mongoUser.Email
+                           Email = mongoUser.Email,
+                           IsAdmin = mongoUser.IsAdmin
                        };
         }
 
@@ -88,7 +89,18 @@ namespace Penedating.Data.MongoDB
                        {
                            UserID = mongoUser.UserID.ToString(),
                            Email = mongoUser.Email
+                           /* We explicitly ignore the IsAdmin field here. */
                        };
+        }
+
+        public IEnumerable<User> GetAllUsers()
+        {
+            var query = _mongoCollection.AsQueryable();
+            return query.Select(a => new User()
+                                         {
+                                             Email = a.Email,
+                                             UserID = a.UserID.ToString()
+                                         });
         }
 
         public UserProfile GetUserProfile(string userId)
