@@ -87,5 +87,17 @@ namespace Penedating.Web.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+
+        public ActionResult DeleteAccount(string auth)
+        {
+            var accessToken = _accessTokenProvider.GetAccessToken();
+                if (accessToken.Ticket != auth || accessToken.IsAdmin) //I don't want to have to repromote admins all the time, so they can't delete them selves.
+            {
+                return RedirectToAction("Index");
+            }
+
+            _userService.DeleteUser(accessToken);
+            return Logout();
+        }
     }
 }

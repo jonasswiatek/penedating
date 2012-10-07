@@ -93,5 +93,10 @@ namespace Penedating.Service.MongoService
             _userRepository.UpdateProfile(accessToken.Ticket, dataUserProfile);
             _logger.Info("Updated user profile for: " + accessToken.Email);
         }
+
+        public void DeleteUser(UserAccessToken accessToken)
+        {
+            _userRepository.DeleteUser(accessToken.Ticket);
+        }
     }
 }
