@@ -31,9 +31,9 @@
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label" for="create-username">Desired User Name</label>
+                <label class="control-label" for="create-username">Your name</label>
                 <div class="controls">
-                    @Html.TextBoxFor(a => a.Username, new { placeholder = "User name here", id = "create-username" })
+                    @Html.TextBoxFor(a => a.Username, new { placeholder = "Your name here", id = "create-username" })
                     @Html.ValidationMessageFor(a => a.Username, null, new { @class = "label label-important" })
                 </div>
             </div>

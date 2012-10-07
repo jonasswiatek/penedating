@@ -16,11 +16,13 @@ namespace Penedating.Service.HttpUserAccessTokenService
     {
         private readonly IMemcachedClient _memcachedClient;
         private readonly string _cookieName;
+        private readonly log4net.ILog _logger;
 
         public MemcachedAccessTokenProvider(IMemcachedClient memcachedClient, string cookieName)
         {
             _memcachedClient = memcachedClient;
             _cookieName = cookieName;
+            _logger = log4net.LogManager.GetLogger(this.GetType());
         }
 
         public void SetUserAccessToken(UserAccessToken accessToken)
@@ -30,27 +32,33 @@ namespace Penedating.Service.HttpUserAccessTokenService
 
             if (!_memcachedClient.Store(StoreMode.Set, hashString, accessToken))
             {
+                _logger.Error("Failed to set access token for: " + accessToken.Email);
                 throw new UserTokenPersistenceFailedExpcetion();
             }
 
             var cookie = new HttpCookie(_cookieName, hashString);
             HttpContext.Current.Response.Cookies.Add(cookie);
+            _logger.Info("Set access token for: " + accessToken.Email);
         }
 
         public UserAccessToken GetAccessToken()
         {
+            var tokenHash = GetHashFromCookie();
             object storedObject;
-            if (_memcachedClient.TryGet(GetHashFromCookie(), out storedObject))
+            if (_memcachedClient.TryGet(tokenHash, out storedObject))
             {
                 var accessToken = storedObject as UserAccessToken;
                 if(accessToken == null)
                 {
+                    _logger.Warn("Memcached contained something that wasn't an access token: " + tokenHash + ", it was a: " + storedObject.GetType().FullName);
                     throw new UnknownUserTokenHashException();
                 }
 
+                _logger.Info("Successfully retrived access token for user: " + accessToken.Email);
                 return accessToken;
             }
 
+            _logger.Warn("A user attempted to load an invalid access token: " + tokenHash);
             throw new UnknownUserTokenHashException();
         }
 
@@ -74,6 +82,8 @@ namespace Penedating.Service.HttpUserAccessTokenService
         public void DestroyAccessToken()
         {
             var hash = GetHashFromCookie();
+            _logger.Info("Destroying session: " + hash);
+
             _memcachedClient.Remove(hash);
             var cookie = new HttpCookie(_cookieName, "expired");
             cookie.Expires = DateTime.Now.AddYears(-1);
@@ -86,6 +96,7 @@ namespace Penedating.Service.HttpUserAccessTokenService
             var cookie = HttpContext.Current.Request.Cookies[_cookieName];
             if (cookie == null)
             {
+                _logger.Debug("Tried to load access token from cookie, but it did not exist");
                 throw new NoUserAccessTokenFoundException();
             }
 
