@@ -120,6 +120,9 @@
     <Content Include="bootstrap\js\bootstrap.js" />
     <Content Include="bootstrap\js\bootstrap.min.js" />
     <Content Include="Content\css\penedating.css" />
+    <Content Include="Content\img\ingrida.jpg" />
+    <Content Include="Content\img\jonas.jpg" />
+    <Content Include="Content\img\lyuba.jpg" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
     <Content Include="Scripts\penedating.js" />
