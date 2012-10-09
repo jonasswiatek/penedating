@@ -20,6 +20,7 @@ namespace Penedating.Web.Security
             if(!accessTokenProvider.TryGetAccessToken(out userAccessToken))
             {
                 filterContext.Result = new HttpNotFoundResult();
+                return;
             }
 
             if(!userAccessToken.IsAdmin)
