@@ -15,18 +15,19 @@ namespace Penedating.Web.Security
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             var accessTokenProvider = DependencyResolver.Current.GetService<IUserAccessTokenProvider>();
+
             UserAccessToken userAccessToken;
-
-            if(!accessTokenProvider.TryGetAccessToken(out userAccessToken))
+            if(accessTokenProvider.TryGetAccessToken(out userAccessToken))
             {
-                filterContext.Result = new HttpNotFoundResult();
-                return;
+                if (userAccessToken.IsAdmin)
+                {
+                    //The user is an administrator according to his access token.
+                    return;
+                }
             }
-
-            if(!userAccessToken.IsAdmin)
-            {
-                filterContext.Result = new HttpNotFoundResult();
-            }
+            /* Throw an HttpException to forcibly destroy the ASP.NET Request Pipe Line.
+             * This has the added advantage of showing a proper 404 page from the web server. */
+            throw new HttpException(404, "Not found");
         }
     }
 }
