@@ -19,6 +19,19 @@ namespace Penedating.Service.HttpUserAccessTokenService
         private readonly bool _useSecureCookie;
         private readonly log4net.ILog _logger;
 
+        private UserAccessToken CurrentAccessToken
+        {
+            get
+            {
+                var current = HttpContext.Current.Items[typeof(UserAccessToken)] as UserAccessToken;
+                return current;
+            }
+            set
+            {
+                HttpContext.Current.Items[typeof(UserAccessToken)] = value;
+            }
+        }
+
         public MemcachedAccessTokenProvider(IMemcachedClient memcachedClient, string cookieName, bool useSecureCookie)
         {
             _memcachedClient = memcachedClient;
@@ -38,79 +51,81 @@ namespace Penedating.Service.HttpUserAccessTokenService
                 throw new UserTokenPersistenceFailedExpcetion();
             }
 
+            CurrentAccessToken = accessToken;
+
             var cookie = new HttpCookie(_cookieName, hashString)
                              {
                                  Secure = _useSecureCookie,     /* Ensures that this cookie is only used on SSL connections - this prevents Man-in-the-middle attacks */
                                  HttpOnly = true,               /* Ensures that the cookie cannot be read from JavaScript - this prevents XSS attacks */
                              };
             HttpContext.Current.Response.Cookies.Add(cookie);
+
             _logger.Info("Set access token for: " + accessToken.Email);
         }
 
         public UserAccessToken GetAccessToken()
         {
-            var tokenHash = GetHashFromCookie();
-            object storedObject;
-            if (_memcachedClient.TryGet(tokenHash, out storedObject))
+            UserAccessToken accessToken;
+            if(!TryGetAccessToken(out accessToken))
             {
-                var accessToken = storedObject as UserAccessToken;
-                if(accessToken == null)
-                {
-                    _logger.Warn("Memcached contained something that wasn't an access token: " + tokenHash + ", it was a: " + storedObject.GetType().FullName);
-                    throw new UnknownUserTokenHashException();
-                }
-
-                _logger.Info("Successfully retrived access token for user: " + accessToken.Email);
-                return accessToken;
+                throw new UnknownUserTokenHashException();
             }
 
-            _logger.Warn("A user attempted to load an invalid access token: " + tokenHash);
-            throw new UnknownUserTokenHashException();
+            return accessToken;
         }
 
         public bool TryGetAccessToken(out UserAccessToken accessToken)
         {
-            try
+            if(CurrentAccessToken != null)
             {
-                object token;
-                var result = _memcachedClient.TryGet(GetHashFromCookie(), out token);
+                accessToken = CurrentAccessToken;
+                return true;
+            }
 
-                accessToken = token as UserAccessToken;
+            string hash;
+            if(TryGetHashFromCookie(out hash))
+            {
+                accessToken = _memcachedClient.Get<UserAccessToken>(hash);
+                CurrentAccessToken = accessToken;
                 return accessToken != null;
             }
-            catch(NoUserAccessTokenFoundException)
-            {
-                accessToken = null;
-                return false;
-            }
+
+            accessToken = null;
+            return false;
         }
 
         public void DestroyAccessToken()
         {
-            var hash = GetHashFromCookie();
-            _logger.Info("Destroying session: " + hash);
+            string hash;
+            if(TryGetHashFromCookie(out hash))
+            {
+                _logger.Info("Destroying session: " + hash);
 
-            _memcachedClient.Remove(hash);
-            var cookie = new HttpCookie(_cookieName, "expired")
-                             {
-                                 Secure = _useSecureCookie,     /* Ensures that this cookie is only used on SSL connections - this prevents Man-in-the-middle attacks */
-                                 HttpOnly = true,               /* Ensures that the cookie cannot be read from JavaScript - this prevents XSS attacks */
-                                 Expires = DateTime.Now.AddYears(-1)
-                             };
+                _memcachedClient.Remove(hash);
+                HttpContext.Current.Items.Remove(typeof(UserAccessToken));
 
-            HttpContext.Current.Response.Cookies.Add(cookie);
+                var cookie = new HttpCookie(_cookieName, "expired")
+                {
+                    Secure = _useSecureCookie,     /* Ensures that this cookie is only used on SSL connections - this prevents Man-in-the-middle attacks */
+                    HttpOnly = true,               /* Ensures that the cookie cannot be read from JavaScript - this prevents XSS attacks */
+                    Expires = DateTime.Now.AddYears(-1)
+                };
+
+                HttpContext.Current.Response.Cookies.Add(cookie);
+            }
         }
 
-        private string GetHashFromCookie()
+        private bool TryGetHashFromCookie(out string hashString)
         {
             var cookie = HttpContext.Current.Request.Cookies[_cookieName];
             if (cookie == null)
             {
-                _logger.Debug("Tried to load access token from cookie, but it did not exist");
-                throw new NoUserAccessTokenFoundException();
+                hashString = null;
+                return false;
             }
 
-            return cookie.Value;
+            hashString = cookie.Value;
+            return true;
         }
 
         private static byte[] GenerateSaltedHash(string plainText, byte[] salt)
