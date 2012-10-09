@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Configuration;
 using System.Net;
 using Enyim.Caching;
 using Enyim.Caching.Configuration;
@@ -18,6 +19,8 @@ namespace Penedating.IoC.DependencyResolution
         public static IContainer Initialize()
         {
             log4net.Config.XmlConfigurator.Configure();
+            var useSecureCookie = ConfigurationManager.AppSettings["UseSecureCookie"] == "true";
+
             ObjectFactory.Initialize(x =>
                                          {
                                              x.For<IUserService>()
@@ -30,7 +33,8 @@ namespace Penedating.IoC.DependencyResolution
 
                                              x.For<IUserAccessTokenProvider>()
                                                  .Use<MemcachedAccessTokenProvider>()
-                                                    .Ctor<string>("cookieName").Is("penedating-auth");
+                                                    .Ctor<string>("cookieName").Is("penedating-auth")
+                                                    .Ctor<bool>("useSecureCookie").Is(useSecureCookie);
 
                                              var memcachedConfig = new MemcachedClientConfiguration
                                                                        {

@@ -16,12 +16,14 @@ namespace Penedating.Service.HttpUserAccessTokenService
     {
         private readonly IMemcachedClient _memcachedClient;
         private readonly string _cookieName;
+        private readonly bool _useSecureCookie;
         private readonly log4net.ILog _logger;
 
-        public MemcachedAccessTokenProvider(IMemcachedClient memcachedClient, string cookieName)
+        public MemcachedAccessTokenProvider(IMemcachedClient memcachedClient, string cookieName, bool useSecureCookie)
         {
             _memcachedClient = memcachedClient;
             _cookieName = cookieName;
+            _useSecureCookie = useSecureCookie;
             _logger = log4net.LogManager.GetLogger(this.GetType());
         }
 
@@ -36,7 +38,11 @@ namespace Penedating.Service.HttpUserAccessTokenService
                 throw new UserTokenPersistenceFailedExpcetion();
             }
 
-            var cookie = new HttpCookie(_cookieName, hashString);
+            var cookie = new HttpCookie(_cookieName, hashString)
+                             {
+                                 Secure = _useSecureCookie,     /* Ensures that this cookie is only used on SSL connections - this prevents Man-in-the-middle attacks */
+                                 HttpOnly = true,               /* Ensures that the cookie cannot be read from JavaScript - this prevents XSS attacks */
+                             };
             HttpContext.Current.Response.Cookies.Add(cookie);
             _logger.Info("Set access token for: " + accessToken.Email);
         }
@@ -85,8 +91,12 @@ namespace Penedating.Service.HttpUserAccessTokenService
             _logger.Info("Destroying session: " + hash);
 
             _memcachedClient.Remove(hash);
-            var cookie = new HttpCookie(_cookieName, "expired");
-            cookie.Expires = DateTime.Now.AddYears(-1);
+            var cookie = new HttpCookie(_cookieName, "expired")
+                             {
+                                 Secure = _useSecureCookie,     /* Ensures that this cookie is only used on SSL connections - this prevents Man-in-the-middle attacks */
+                                 HttpOnly = true,               /* Ensures that the cookie cannot be read from JavaScript - this prevents XSS attacks */
+                                 Expires = DateTime.Now.AddYears(-1)
+                             };
 
             HttpContext.Current.Response.Cookies.Add(cookie);
         }
