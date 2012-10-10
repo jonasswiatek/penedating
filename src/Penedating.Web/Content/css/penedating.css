@@ -1,4 +1,11 @@
 ﻿body 
 {
-    padding-top: 120px;
+    padding-top: 80px;
+}
+
+img.logo 
+{
+    display: block;
+    margin: auto;
+    margin-bottom: 30px;
 }

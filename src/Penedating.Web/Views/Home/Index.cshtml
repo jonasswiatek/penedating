@@ -3,14 +3,19 @@
     ViewBag.Title = "Penedating - Front Page";
 }
 <div class="row">
+    <div class="span12 logo-outer">
+        <img class="logo" src="@Url.Content("~/Content/img/penedating_small_trans.png")"/>
+    </div>
+</div>
+<div class="row">
     <div class="span12">
         <section id="frontpage-login">
             <div class="hero-unit">
-              <h1>Penedating</h1>
-              <p>A Dating Site for nerds with a passion for penetration testing</p>
-              <p>
-                @Html.Partial("LoginForm")
-              </p>
+                <h1>Penedating</h1>
+                <p>A Dating Site for nerds with a passion for penetration testing</p>
+                <p>
+                    @Html.Partial("LoginForm")
+                </p>
             </div>
         </section>
     </div>
