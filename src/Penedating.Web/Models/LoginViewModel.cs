@@ -11,6 +11,7 @@ namespace Penedating.Web.Models
     {
         [Required(ErrorMessage = "Email is required")]
         [EmailValidation(ErrorMessage = "Email not valid")]
+        [StringLength(30, MinimumLength = 5, ErrorMessage = "Email must be between 5 and 30 characters in length")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Password not valid")]

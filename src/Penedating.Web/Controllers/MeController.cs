@@ -35,14 +35,16 @@ namespace Penedating.Web.Controllers
         [HttpPost]
         public ActionResult Index(ProfileViewModel profileViewModel)
         {
+            var accessToken = _accessTokenProvider.GetAccessToken();
+            var userProfile = _userService.GetUserProfile(accessToken);
+
             if(!ModelState.IsValid)
             {
+                profileViewModel.Hobbies = userProfile.Hobbies;
                 return View(profileViewModel);
             }
 
             //TODO: This is just inefficient. The service layer and repository design needs to support spot updating stuff like this much better.
-            var accessToken = _accessTokenProvider.GetAccessToken();
-            var userProfile = _userService.GetUserProfile(accessToken);
             var newUserProfile = Mapper.Map<UserProfile>(profileViewModel);
             newUserProfile.Hobbies = userProfile.Hobbies;
             newUserProfile.Interests.Clear();
@@ -68,6 +70,12 @@ namespace Penedating.Web.Controllers
             var accessToken = _accessTokenProvider.GetAccessToken();
             var profile = _userService.GetUserProfile(accessToken);
 
+            //TODO: Make this transport in a view model and support client errors properly. While this works it's not in line with the rest of the app.
+            if(string.IsNullOrEmpty(hobby) || hobby.Length > 20)
+            {
+                return View("Hobbies", profile.Hobbies);
+            }
+
             if(remove)
             {
                 profile.Hobbies.Remove(hobby);
@@ -91,12 +99,14 @@ namespace Penedating.Web.Controllers
         public ActionResult DeleteAccount(string auth)
         {
             var accessToken = _accessTokenProvider.GetAccessToken();
-                if (accessToken.Ticket != auth || accessToken.IsAdmin) //I don't want to have to repromote admins all the time, so they can't delete them selves.
+            if (accessToken.Ticket != auth || accessToken.IsAdmin) //I don't want to have to repromote admins all the time, so they can't delete them selves.
             {
                 return RedirectToAction("Index");
             }
 
             _userService.DeleteUser(accessToken);
+            _accessTokenProvider.DestroyAccessToken();
+
             return Logout();
         }
     }
