@@ -15,10 +15,12 @@ namespace Penedating.Web.Controllers
     public class UserController : Controller
     {
         private readonly IUserService _userService;
+        private readonly IUserProfileService _userProfileService;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, IUserProfileService userProfileService)
         {
             _userService = userService;
+            _userProfileService = userProfileService;
         }
 
         public ActionResult Index()
@@ -48,7 +50,7 @@ namespace Penedating.Web.Controllers
 
             var userProfile = Mapper.Map<UserProfile>(createViewModel);
 
-            _userService.UpdateProfile(accessToken, userProfile);
+            _userProfileService.UpdateProfile(accessToken, userProfile);
 
             //Login the newly created user
             return RedirectToAction("CreatedConfirm");

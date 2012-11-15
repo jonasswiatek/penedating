@@ -14,8 +14,5 @@ namespace Penedating.Data.MongoDB.Model.Contract
 
         User GetUserByID(string userId);
         IEnumerable<User> GetAllUsers();
-
-        UserProfile GetUserProfile(string userId);
-        void UpdateProfile(string userId, UserProfile profile);
     }
 }

@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UserProfileRepository.cs" />
     <Compile Include="PasswordHash.cs" />
     <Compile Include="InternalModel\PenedatingMongoUser.cs" />
     <Compile Include="UserRepository.cs" />

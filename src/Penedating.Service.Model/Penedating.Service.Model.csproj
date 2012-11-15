@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Address.cs" />
     <Compile Include="Contract\IUserAccessTokenProvider.cs" />
+    <Compile Include="Contract\IUserProfileService.cs" />
     <Compile Include="Contract\IUserService.cs" />
     <Compile Include="Exceptions\InvalidUserCredentialsException.cs" />
     <Compile Include="Exceptions\UserAccessTokenNotFoundException.cs" />

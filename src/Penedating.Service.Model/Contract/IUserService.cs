@@ -19,9 +19,6 @@ namespace Penedating.Service.Model.Contract
         UserAccessToken ImpersonateUser(string userId);
         IEnumerable<UserAccessToken> GetUsers();
 
-        UserProfile GetUserProfile(UserAccessToken userCredentials);
-        void UpdateProfile(UserAccessToken accessToken, UserProfile updatedProfile);
-
         void DeleteUser(UserAccessToken accessToken);
     }
 }

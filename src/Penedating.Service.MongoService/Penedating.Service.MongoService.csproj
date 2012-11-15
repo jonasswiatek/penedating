@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\AutoMapperInit.cs" />
+    <Compile Include="MongoUserProfileService.cs" />
     <Compile Include="MongoUserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

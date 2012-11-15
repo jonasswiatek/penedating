@@ -24,7 +24,10 @@ namespace Penedating.Web.Test.Controllers
             var userServiceMock = new Mock<IUserService>();
             var userService = userServiceMock.Object;
 
-            var userController = new UserController(userService);
+            var userProfileServiceMock = new Mock<IUserProfileService>();
+            var userProfileService = userProfileServiceMock.Object;
+
+            var userController = new UserController(userService, userProfileService);
             userController.ViewData.ModelState.AddModelError("rofl", "nao"); //This simulates any validation error
 
             var createModel = new CreateViewModel();
@@ -49,7 +52,10 @@ namespace Penedating.Web.Test.Controllers
             var userServiceMock = new Mock<IUserService>();
             var userService = userServiceMock.Object;
 
-            var userController = new UserController(userService);
+            var userProfileServiceMock = new Mock<IUserProfileService>();
+            var userProfileService = userProfileServiceMock.Object;
+
+            var userController = new UserController(userService, userProfileService);
             var createModel = new CreateViewModel
                                   {
                                       Username = "test-user",
@@ -79,9 +85,12 @@ namespace Penedating.Web.Test.Controllers
             var userServiceMock = new Mock<IUserService>();
             var userService = userServiceMock.Object;
 
+            var userProfileServiceMock = new Mock<IUserProfileService>();
+            var userProfileService = userProfileServiceMock.Object;
+
             var controllerContextMock = new Mock<ControllerContext>();
             
-            var userController = new UserController(userService);
+            var userController = new UserController(userService, userProfileService);
             userController.ControllerContext = controllerContextMock.Object;
 
             var createModel = new CreateViewModel
@@ -120,7 +129,7 @@ namespace Penedating.Web.Test.Controllers
                                   };
 
             userServiceMock.Verify(a => a.Create(credentials));
-            userServiceMock.Verify(a => a.UpdateProfile(accessToken, userProfile));
+            userProfileServiceMock.Verify(a => a.UpdateProfile(accessToken, userProfile));
         }
     }
 }

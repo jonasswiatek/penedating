@@ -40,7 +40,6 @@ namespace Penedating.Service.MongoService
                 _logger.Warn("Failed Authentication for user: " + credentials.Email);
                 throw new InvalidUserCredentialsException();
             }
-
         }
 
         public UserAccessToken Create(UserCredentials credentials)
@@ -78,20 +77,6 @@ namespace Penedating.Service.MongoService
         public IEnumerable<UserAccessToken> GetUsers()
         {
             return _userRepository.GetAllUsers().Select(Mapper.Map<UserAccessToken>);
-        }
-
-        public UserProfile GetUserProfile(UserAccessToken userAccessToken)
-        {
-            var userProfile = _userRepository.GetUserProfile(userAccessToken.Ticket);
-
-            return Mapper.Map<UserProfile>(userProfile);
-        }
-
-        public void UpdateProfile(UserAccessToken accessToken, UserProfile updatedProfile)
-        {
-            var dataUserProfile = Mapper.Map<Data.MongoDB.Model.UserProfile>(updatedProfile);
-            _userRepository.UpdateProfile(accessToken.Ticket, dataUserProfile);
-            _logger.Info("Updated user profile for: " + accessToken.Email);
         }
 
         public void DeleteUser(UserAccessToken accessToken)

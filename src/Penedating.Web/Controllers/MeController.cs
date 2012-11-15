@@ -15,18 +15,20 @@ namespace Penedating.Web.Controllers
     public class MeController : Controller
     {
         private readonly IUserService _userService;
+        private readonly IUserProfileService _userProfileService;
         private readonly IUserAccessTokenProvider _accessTokenProvider;
 
-        public MeController(IUserService userService, IUserAccessTokenProvider accessTokenProvider)
+        public MeController(IUserService userService, IUserProfileService userProfileService, IUserAccessTokenProvider accessTokenProvider)
         {
             _userService = userService;
+            _userProfileService = userProfileService;
             _accessTokenProvider = accessTokenProvider;
         }
 
         public ActionResult Index()
         {
             var accessToken = _accessTokenProvider.GetAccessToken();
-            var userProfile = _userService.GetUserProfile(accessToken);
+            var userProfile = _userProfileService.GetUserProfile(accessToken);
             var profileViewModel = Mapper.Map<ProfileViewModel>(userProfile);
 
             return View(profileViewModel);
@@ -36,7 +38,7 @@ namespace Penedating.Web.Controllers
         public ActionResult Index(ProfileViewModel profileViewModel)
         {
             var accessToken = _accessTokenProvider.GetAccessToken();
-            var userProfile = _userService.GetUserProfile(accessToken);
+            var userProfile = _userProfileService.GetUserProfile(accessToken);
 
             if(!ModelState.IsValid)
             {
@@ -59,7 +61,7 @@ namespace Penedating.Web.Controllers
                 newUserProfile.Interests.Add(Interest.Romance);
             }
 
-            _userService.UpdateProfile(accessToken, newUserProfile);
+            _userProfileService.UpdateProfile(accessToken, newUserProfile);
 
             return RedirectToAction("Index");
         }
@@ -68,7 +70,7 @@ namespace Penedating.Web.Controllers
         public ActionResult Hobby(string hobby, bool remove)
         {
             var accessToken = _accessTokenProvider.GetAccessToken();
-            var profile = _userService.GetUserProfile(accessToken);
+            var profile = _userProfileService.GetUserProfile(accessToken);
 
             //TODO: Make this transport in a view model and support client errors properly. While this works it's not in line with the rest of the app.
             if(string.IsNullOrEmpty(hobby) || hobby.Length > 20)
@@ -84,8 +86,8 @@ namespace Penedating.Web.Controllers
             {
                 profile.Hobbies.Add(hobby);
             }
-            
-            _userService.UpdateProfile(accessToken, profile);
+
+            _userProfileService.UpdateProfile(accessToken, profile);
             return View("Hobbies", profile.Hobbies);
         }
 

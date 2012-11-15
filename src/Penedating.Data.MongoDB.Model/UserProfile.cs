@@ -9,6 +9,7 @@ namespace Penedating.Data.MongoDB.Model
     {   
         public string Username { get; set; }
         public Address Address { get; set; }
+
         public IList<string> Hobbies { get; set; }
         public IList<string> Interests { get; set; }
 

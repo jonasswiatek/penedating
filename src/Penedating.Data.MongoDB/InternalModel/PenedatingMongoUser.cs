@@ -11,7 +11,8 @@ namespace Penedating.Data.MongoDB.InternalModel
         public BsonObjectId UserID { get; set; }
         public string Email { get; set; }
         public string PasswordHash { get; set; }
-        public UserProfile UserProfile { get; set; }
         public bool IsAdmin { get; set; }
+
+        public UserProfile UserProfile { get; set; }
     }
 }
