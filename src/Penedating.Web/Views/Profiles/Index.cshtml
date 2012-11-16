@@ -1,0 +1,12 @@
+﻿@model Penedating.Web.Models.ProfileList
+@{
+    Layout = null;
+}
+<ul class="thumbnails">
+    @foreach (var profile in Model.Profiles)
+    {
+        <li class="span3">
+            @Html.Partial("profile", profile)
+        </li>
+    }
+</ul>

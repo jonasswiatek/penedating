@@ -46,5 +46,15 @@ namespace Penedating.Data.MongoDB
             var update = Update.Set("UserProfile", profile.ToBsonDocument());
             _mongoCollection.FindAndModify(query, SortBy.Null, update);
         }
+
+        public IEnumerable<UserProfile> GetProfiles(int pageIndex, int pageSize, out int pageCount)
+        {
+            var query = _mongoCollection.FindAll();
+            query.SetLimit(pageSize);
+            query.SetSkip(pageSize*pageIndex);
+            pageCount = ((int)query.Count()) / pageSize;
+
+            return query.Select(a => a.UserProfile).ToList();
+        }
     }
 }

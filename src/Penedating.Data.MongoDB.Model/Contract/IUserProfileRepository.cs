@@ -9,5 +9,6 @@ namespace Penedating.Data.MongoDB.Model.Contract
     {
         UserProfile GetUserProfile(string userId);
         void UpdateProfile(string userId, UserProfile profile);
+        IEnumerable<UserProfile> GetProfiles(int pageIndex, int pageSize, out int pageCount);
     }
 }

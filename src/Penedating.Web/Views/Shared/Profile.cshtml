@@ -1,0 +1,15 @@
+﻿@model Penedating.Web.Models.ProfileListItem
+@{
+    Layout = null;
+    var user = Html.GetUserAccessToken();
+}
+<div class="thumbnail">
+    <img src="http://placehold.it/260x180" alt="" />
+    <div class="caption">
+        <h3>@Model.Username</h3>
+        @if (user != null)
+        {
+            <p>Rofl</p>
+        }
+    </div>
+</div>

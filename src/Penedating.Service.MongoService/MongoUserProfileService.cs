@@ -23,6 +23,20 @@ namespace Penedating.Service.MongoService
             _logger = LogManager.GetLogger(this.GetType());
         }
 
+        public MultipageResponse<UserProfile> GetProfiles(int pageIndex, int pageSize)
+        {
+            int pageCount;
+            var profiles = _userProfileRepository.GetProfiles(pageIndex, pageSize, out pageCount);
+
+            return new MultipageResponse<UserProfile>()
+                       {
+                           PageCount = pageCount,
+                           PageIndex = pageIndex,
+                           PageSize = pageSize,
+                           Result = Mapper.Map<IEnumerable<Service.Model.UserProfile>>(profiles)
+                       };
+        }
+
         public UserProfile GetUserProfile(UserAccessToken userAccessToken)
         {
             var userProfile = _userProfileRepository.GetUserProfile(userAccessToken.Ticket);
