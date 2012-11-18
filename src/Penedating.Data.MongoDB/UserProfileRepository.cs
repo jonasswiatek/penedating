@@ -53,6 +53,10 @@ namespace Penedating.Data.MongoDB
             query.SetLimit(pageSize);
             query.SetSkip(pageSize*pageIndex);
             pageCount = ((int)query.Count()) / pageSize;
+            if (query.Count()%pageSize != 0)
+            {
+                pageCount += 1;
+            }
 
             return query.Select(a => a.UserProfile).ToList();
         }

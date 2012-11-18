@@ -2,11 +2,36 @@
 @{
     Layout = null;
 }
-<ul class="thumbnails">
-    @foreach (var profile in Model.Profiles)
-    {
-        <li class="span3">
-            @Html.Partial("profile", profile)
-        </li>
-    }
-</ul>
+<div id="profiles">
+    <div class="pagination pagination-right pagination-small">
+        <ul>
+            @if (Model.PageIndex > 0)
+            {
+                <li>
+                    <a href="javascript:ajax('@Url.Action("Index", "Profiles", new { pageIndex = Model.PageIndex - 1, Model.PageSize })',$('#profiles'))">Prev</a>
+                </li>
+            }
+            @for (var i = 0; i < Model.PageCount; i++)
+            {
+                var classses = i == Model.PageIndex ? "active" : "";
+                <li class="@classses">
+                    <a href="javascript:ajax('@Url.Action("Index", "Profiles", new { pageIndex = i, Model.PageSize })',$('#profiles'))">@(i+1)</a>
+                </li>
+            }
+            @if (Model.PageIndex + 1 < Model.PageCount)
+            {
+                <li>
+                    <a href="javascript:ajax('@Url.Action("Index", "Profiles", new { pageIndex = Model.PageIndex + 1, Model.PageSize })',$('#profiles'))">Next</a>
+                </li>
+            }
+        </ul>
+    </div>
+    <ul class="thumbnails">
+        @foreach (var profile in Model.Profiles)
+        {
+            <li class="span3">
+                @Html.Partial("profile", profile)
+            </li>
+        }
+    </ul>
+</div>

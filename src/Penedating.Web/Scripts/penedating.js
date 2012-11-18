@@ -10,3 +10,7 @@
         $("#me-hobbies").html(data);
     });
 }
+
+function ajax(url, container) {
+    container.load(url);
+}
