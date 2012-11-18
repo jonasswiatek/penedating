@@ -16,5 +16,9 @@ namespace Penedating.Web.Controllers
             return View();
         }
 
+        public ActionResult Security()
+        {
+            return View();
+        }
     }
 }
