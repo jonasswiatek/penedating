@@ -11,6 +11,14 @@
     });
 }
 
+function hug(url, userId) {
+    $.post(url, {
+            userId: userId
+        }, function(data) {
+            alert("Hug successfully sent");
+        });
+}
+
 function ajax(url, container) {
     container.load(url);
 }

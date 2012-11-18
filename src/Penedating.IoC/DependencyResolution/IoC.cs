@@ -29,6 +29,9 @@ namespace Penedating.IoC.DependencyResolution
                                              x.For<IUserProfileService>()
                                                  .Use<MongoUserProfileService>();
 
+                                             x.For<IHugService>()
+                                              .Use<MongoHugService>();
+
                                              x.For<IUserRepository>()
                                                  .Use<UserRepository>()
                                                     .Ctor<string>("connectionString").Is("mongodb://localhost/?safe=true")
@@ -38,6 +41,11 @@ namespace Penedating.IoC.DependencyResolution
                                                 .Use<UserProfileRepository>()
                                                    .Ctor<string>("connectionString").Is("mongodb://localhost/?safe=true")
                                                    .Ctor<string>("databaseName").Is("penedating");
+
+                                             x.For<IHugRepository>()
+                                               .Use<HugRepository>()
+                                                  .Ctor<string>("connectionString").Is("mongodb://localhost/?safe=true")
+                                                  .Ctor<string>("databaseName").Is("penedating");
 
                                              x.For<IUserAccessTokenProvider>()
                                                  .Use<MemcachedAccessTokenProvider>()

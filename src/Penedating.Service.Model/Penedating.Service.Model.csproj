@@ -41,12 +41,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Address.cs" />
+    <Compile Include="Contract\IHugService.cs" />
     <Compile Include="Contract\IUserAccessTokenProvider.cs" />
     <Compile Include="Contract\IUserProfileService.cs" />
     <Compile Include="Contract\IUserService.cs" />
     <Compile Include="Exceptions\InvalidUserCredentialsException.cs" />
     <Compile Include="Exceptions\UserAccessTokenNotFoundException.cs" />
     <Compile Include="Exceptions\UserExistsException.cs" />
+    <Compile Include="Hug.cs" />
     <Compile Include="Interest.cs" />
     <Compile Include="MultipageResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

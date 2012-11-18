@@ -18,6 +18,7 @@ namespace Penedating.Service.MongoService.App_Start
                 .ForMember(a => a.IsAdmin, b => b.MapFrom(c => c.IsAdmin));
 
             Mapper.CreateMap<Data.MongoDB.Model.UserProfile, Model.UserProfile>()
+                .ForMember(a => a.UserID, b => b.MapFrom(c => c.MongoUserID))
                 .ForMember(a => a.Username, b => b.MapFrom(c => c.Username))
                 .ForMember(a => a.Address, b => b.MapFrom(c => c.Address))
                 .ForMember(a => a.Hobbies, b => b.MapFrom(c => c.Hobbies))
@@ -27,6 +28,14 @@ namespace Penedating.Service.MongoService.App_Start
                 .ForMember(a => a.Street, b => b.MapFrom(c => c.StreetAddress))
                 .ForMember(a => a.City, b => b.MapFrom(c => c.City))
                 .ForMember(a => a.ZipCode, b => b.MapFrom(c => c.ZipCode));
+
+            Mapper.CreateMap<Data.MongoDB.Model.Hug, Model.Hug>()
+                .ForMember(a => a.From, b => b.MapFrom(c => c.Sender))
+                .ForMember(a => a.Created, b => b.MapFrom(c => c.Created));
+
+            Mapper.CreateMap<Model.Hug, Data.MongoDB.Model.Hug>()
+                  .ForMember(a => a.SenderID, b => b.MapFrom(c => c.SenderID))
+                  .ForMember(a => a.Created, b => b.MapFrom(c => c.Created));
 
             Mapper.CreateMap<Service.Model.UserProfile, Data.MongoDB.Model.UserProfile>()
                 .ForMember(a => a.Username, b => b.MapFrom(c => c.Username))

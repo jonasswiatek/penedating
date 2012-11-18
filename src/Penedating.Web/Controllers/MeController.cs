@@ -16,18 +16,24 @@ namespace Penedating.Web.Controllers
     {
         private readonly IUserService _userService;
         private readonly IUserProfileService _userProfileService;
+        private readonly IHugService _hugService;
         private readonly IUserAccessTokenProvider _accessTokenProvider;
 
-        public MeController(IUserService userService, IUserProfileService userProfileService, IUserAccessTokenProvider accessTokenProvider)
+        public MeController(IUserService userService, IUserProfileService userProfileService, IHugService hugService, IUserAccessTokenProvider accessTokenProvider)
         {
             _userService = userService;
             _userProfileService = userProfileService;
+            _hugService = hugService;
             _accessTokenProvider = accessTokenProvider;
         }
 
         public ActionResult Index()
         {
-            return View();
+            var accesstoken = _accessTokenProvider.GetAccessToken();
+            var hugs = _hugService.GetHugs(accesstoken);
+            var hugsViewModel = Mapper.Map<IEnumerable<ProfileListItem>>(hugs.Select(a => a.From));
+
+            return View(hugsViewModel);
         }
 
         public ActionResult Profile()
@@ -94,6 +100,24 @@ namespace Penedating.Web.Controllers
 
             _userProfileService.UpdateProfile(accessToken, profile);
             return View("Hobbies", profile.Hobbies);
+        }
+
+        [HttpPost]
+        public ActionResult Hug(string userId)
+        {
+            var accessToken = _accessTokenProvider.GetAccessToken();
+
+            _hugService.SendHug(accessToken, userId);
+            return null;
+        }
+
+        [HttpPost]
+        public ActionResult DismissHugs(FormCollection form)
+        {
+            var accessToken = _accessTokenProvider.GetAccessToken();
+            _hugService.DismissHugs(accessToken);
+
+            return RedirectToAction("Index");
         }
 
         public ActionResult Logout()

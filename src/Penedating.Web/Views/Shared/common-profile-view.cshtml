@@ -9,7 +9,7 @@
         <h3>@Model.Username</h3>
         @if (user != null)
         {
-            <p>Rofl</p>
+            <button class="btn" type="button" onclick="javascript:hug('@Url.Action("Hug", "Me")', '@Model.UserID');">Send hug</button>
         }
     </div>
 </div>

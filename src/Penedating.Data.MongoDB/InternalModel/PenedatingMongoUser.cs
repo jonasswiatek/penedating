@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson;
+﻿using System.Collections.Generic;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson.Serialization.IdGenerators;
 using Penedating.Data.MongoDB.Model;
@@ -14,5 +15,6 @@ namespace Penedating.Data.MongoDB.InternalModel
         public bool IsAdmin { get; set; }
 
         public UserProfile UserProfile { get; set; }
+        public IList<Hug> Hugs = new List<Hug>();
     }
 }

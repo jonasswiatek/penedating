@@ -36,6 +36,7 @@ namespace Penedating.Data.MongoDB
             {
                 throw new UserEntityNotFoundException();
             }
+            mongoUser.UserProfile.MongoUserID = userId;
 
             return mongoUser.UserProfile;
         }
@@ -58,7 +59,13 @@ namespace Penedating.Data.MongoDB
                 pageCount += 1;
             }
 
-            return query.Select(a => a.UserProfile).ToList();
+            var userProfiles = query.Select(a => a).ToList();
+            foreach (var userProfile in userProfiles)
+            {
+                userProfile.UserProfile.MongoUserID = userProfile.UserID.ToString();
+            }
+
+            return userProfiles.Select(a => a.UserProfile).ToList();
         }
     }
 }

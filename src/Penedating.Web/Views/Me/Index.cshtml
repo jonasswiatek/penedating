@@ -1,4 +1,4 @@
-﻿@model Penedating.Web.Models.ProfileViewModel
+﻿@model IEnumerable<Penedating.Web.Models.ProfileListItem>
 @{
     ViewBag.Title = "Welcome back!";
 }
@@ -11,8 +11,29 @@
             </p>
         </div>
     </div>
-</div>  
+</div>
+@if (Model.Any())
+{
+    <div class="row">
+        <h2>People who hugged you</h2> 
+        <div class="span12">
+            <ul class="thumbnails">
+                @foreach (var profile in Model)
+                {
+                    <li class="span3">
+                        @Html.Partial("common-profile-view", profile)
+                    </li>
+                }
+            </ul>
+            @using (Html.BeginForm("DismissHugs", "Me", FormMethod.Post))
+            {
+                <button type="submit" class="btn btn-primary">Dismiss all</button>
+            }
+        </div>
+    </div>
+}
 <div class="row">
+    <h2>Hug someone else</h2>
     <div class="span12">
         @Html.Action("Index", "Profiles", new { pageSize = 8 })
     </div>

@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Penedating.Data.MongoDB.Model
 {
     public class UserProfile
-    {   
+    {
+        [BsonIgnore]
+        public string MongoUserID { get; set; }
+
         public string Username { get; set; }
         public Address Address { get; set; }
 

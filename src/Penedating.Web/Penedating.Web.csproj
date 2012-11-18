@@ -185,7 +185,7 @@
     <Content Include="Views\Profiles\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Shared\Profile.cshtml" />
+    <Content Include="Views\Shared\common-profile-view.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Me\Index.cshtml" />
