@@ -1,7 +1,6 @@
 ﻿@model Penedating.Web.Models.ProfileViewModel
 @{
-    ViewBag.Title = "Your Profile";
-    var user = Html.GetUserAccessToken();
+    ViewBag.Title = "Welcome back!";
 }
 <div class="row">
     <div class="span12">
@@ -16,84 +15,5 @@
 <div class="row">
     <div class="span12">
         @Html.Action("Index", "Profiles")
-    </div>
-</div>
-<div class="row">
-    <div class="span6">
-        @using (Html.BeginForm("Index", "Me", FormMethod.Post, new { @class = "form-horizontal" }))
-        {
-            <div class="control-group">
-                <label class="control-label" for="me-username">Your name</label>
-                <div class="controls">
-                    @Html.TextBoxFor(a => a.Username, new { placeholder = "User name here", id = "me-username" })
-                    @Html.ValidationMessageFor(a => a.Username, null, new { @class = "label label-important" })
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="me-street">Street Address</label>
-                <div class="controls">
-                    @Html.TextBoxFor(a => a.StreetAddress, new { placeholder = "Street Address", id = "me-street" })
-                    @Html.ValidationMessageFor(a => a.StreetAddress, null, new { @class = "label label-important" })
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="me-city">City</label>
-                <div class="controls">
-                    @Html.TextBoxFor(a => a.City, new { placeholder = "City", id = "me-city" })
-                    @Html.ValidationMessageFor(a => a.City, null, new { @class = "label label-important" })
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="me-zip">Zip Code</label>
-                <div class="controls">
-                    @Html.TextBoxFor(a => a.ZipCode, new { placeholder = "Zip Code", id = "me-zip" })
-                    @Html.ValidationMessageFor(a => a.ZipCode, null, new { @class = "label label-important" })
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="me-zip">I am interested in</label>
-                <div class="controls">
-                    <label class="checkbox">
-                        @Html.CheckBoxFor(a => a.Friendship) Friendship
-                    </label>
-                    <label class="checkbox">
-                        @Html.CheckBoxFor(a => a.Romance) Romance
-                    </label>
-                </div>
-            </div>
-            <div class="control-group">
-                <div class="controls">
-                    <button type="submit" class="btn btn-primary">Update</button>
-                    <a href="#deleteConfirmModal" role="button" class="btn btn-danger" data-toggle="modal">Delete my Account</a>
-                </div>
-            </div>
-        }
-    </div>
-    <div class="span6">
-        <h2>Your hobbies</h2>
-        <div id="me-hobbies">
-            @Html.Partial("Hobbies", Model.Hobbies)
-        </div>
-        <h4>Add another</h4>
-        <div class="input-append">
-            <input class="span2" id="hobby-new" size="16" type="text"><button class="btn" type="button" onclick="javascript:addDeleteHobby('@Url.Action("Hobby", "Me")', $('#hobby-new').val(), false);">Add hobby</button>
-        </div>
-    </div>
-</div>
-<div class="modal hide fade" id="deleteConfirmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3 id="myModalLabel">Really delete your account?</h3>
-    </div>
-    <div class="modal-body">
-        <p>Fair enough, we ain't in the business of judging. If you want to really delete your account then press the red button below.</p>
-        @if(user.IsAdmin)
-        {
-            <p><strong>Hey, you're an administrator.</strong> Because I don't want to have to repromote you to administrators all the time, this feature won't actually delete you. But feel free to press the red button anyway!</p>
-        }
-    </div>
-    <div class="modal-footer">
-        <button class="btn" data-dismiss="modal" aria-hidden="true">Aw hell no!</button>
-        <a class="btn btn-danger" href="@Url.Action("DeleteAccount", new { auth = user.Ticket })">Yesyes! Delete me already</a>
     </div>
 </div>

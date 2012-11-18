@@ -27,6 +27,11 @@ namespace Penedating.Web.Controllers
 
         public ActionResult Index()
         {
+            return View();
+        }
+
+        public ActionResult Profile()
+        {
             var accessToken = _accessTokenProvider.GetAccessToken();
             var userProfile = _userProfileService.GetUserProfile(accessToken);
             var profileViewModel = Mapper.Map<ProfileViewModel>(userProfile);
@@ -35,7 +40,7 @@ namespace Penedating.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(ProfileViewModel profileViewModel)
+        public ActionResult Profile(ProfileViewModel profileViewModel)
         {
             var accessToken = _accessTokenProvider.GetAccessToken();
             var userProfile = _userProfileService.GetUserProfile(accessToken);
@@ -63,7 +68,7 @@ namespace Penedating.Web.Controllers
 
             _userProfileService.UpdateProfile(accessToken, newUserProfile);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Profile");
         }
 
         [HttpPost]
