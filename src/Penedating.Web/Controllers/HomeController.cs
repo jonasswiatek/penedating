@@ -22,7 +22,7 @@ namespace Penedating.Web.Controllers
 
         public ActionResult Index()
         {
-            var externalUsers = _externalProfilesService.GetExternalProfiles();
+            //var externalUsers = _externalProfilesService.GetExternalProfiles();
 
             UserAccessToken accessToken;
             if (_accessTokenProvider.TryGetAccessToken(out accessToken))

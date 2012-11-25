@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Penedating.Service.Model.PartnerQueryResult>
+@{
+    ViewBag.Title = "Status";
+}
+
+<h2>Status</h2>
+<div class="row">
+    <div class="span12">
+        <div class="hero-unit">
+            <h1>Partner status</h1>
+            <p>
+                Here is a list of our partners and their current integration status
+            </p>
+        </div>
+    </div>
+</div>
+<table class="table table-striped">
+<caption>Status of external partners</caption>
+  <thead>
+    <tr>
+        <th>Partner url</th>
+        <th>Status</th>
+        <th>Error</th>
+    </tr>
+  </thead>
+    <tbody>
+        @foreach(var partner in Model)
+        {
+            <tr>
+                <td>@partner.PartnerUri</td>
+                <td>@(partner.Profiles.Any() ? "OK" : "Failed")</td>
+                <td>@partner.PartnerError</td>
+            </tr> 
+        }
+    </tbody>
+</table>

@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Net;
+using DR.Sleipner;
+using DR.Sleipner.CacheConfiguration;
+using DR.Sleipner.EnyimMemcachedProvider;
 using Enyim.Caching;
 using Enyim.Caching.Configuration;
 using Enyim.Caching.Memcached;
@@ -13,17 +15,30 @@ using Penedating.Service.Model.Contract;
 using Penedating.Service.MongoService;
 using Penedating.Service.RestApiService;
 using StructureMap;
+using log4net.Config;
 
 namespace Penedating.IoC.DependencyResolution
 {
     public static class IoC
     {
+        public static SleipnerProxy<IExternalProfilesService> ExternalProfilesProxy;
+        public static IMemcachedClient MemcachedClient;
+
         public static IContainer Initialize()
         {
-            log4net.Config.XmlConfigurator.Configure();
+            XmlConfigurator.Configure();
             var useSecureCookie = ConfigurationManager.AppSettings["UseSecureCookie"] == "true";
 
-            var externalPartners = new List<Uri>()
+            var memcachedConfig = new MemcachedClientConfiguration
+                                      {
+                                          Protocol = MemcachedProtocol.Binary,
+                                          Transcoder = new NewtonsoftTranscoder()
+                                      };
+            memcachedConfig.AddServer("localhost", 11211);
+
+            MemcachedClient = new MemcachedClient(memcachedConfig);
+
+            var externalPartners = new List<Uri>
                                        {
                                            new Uri("http://173.203.86.196/ssase12/services/users"),
                                            new Uri("http://173.203.81.201/ssase12/services/users"),
@@ -38,50 +53,48 @@ namespace Penedating.IoC.DependencyResolution
                                            new Uri("http://184.106.134.110/ssase12/services/users")
                                        };
 
+            ExternalProfilesProxy = new SleipnerProxy<IExternalProfilesService>(
+                new RestApiExternalProfilesService(externalPartners),
+                new EnyimMemcachedProvider<IExternalProfilesService>(MemcachedClient)
+                );
+
+            ExternalProfilesProxy.Configure(a => a.ForAll().CacheFor(60));
+
             ObjectFactory.Initialize(x =>
                                          {
                                              x.For<IExternalProfilesService>()
-                                              .Use<RestApiExternalProfilesService>()
-                                              .Ctor<IEnumerable<Uri>>("partners")
-                                              .Is(externalPartners);
+                                              .Use(ExternalProfilesProxy.Object);
 
                                              x.For<IUserService>()
-                                                 .Use<MongoUserService>();
+                                              .Use<MongoUserService>();
 
                                              x.For<IUserProfileService>()
-                                                 .Use<MongoUserProfileService>();
+                                              .Use<MongoUserProfileService>();
 
                                              x.For<IHugService>()
                                               .Use<MongoHugService>();
 
                                              x.For<IUserRepository>()
-                                                 .Use<UserRepository>()
-                                                    .Ctor<string>("connectionString").Is("mongodb://localhost/?safe=true")
-                                                    .Ctor<string>("databaseName").Is("penedating");
+                                              .Use<UserRepository>()
+                                                  .Ctor<string>("connectionString").Is("mongodb://localhost/?safe=true")
+                                                  .Ctor<string>("databaseName").Is("penedating");
 
                                              x.For<IUserProfileRepository>()
-                                                .Use<UserProfileRepository>()
-                                                   .Ctor<string>("connectionString").Is("mongodb://localhost/?safe=true")
-                                                   .Ctor<string>("databaseName").Is("penedating");
+                                              .Use<UserProfileRepository>()
+                                                  .Ctor<string>("connectionString").Is("mongodb://localhost/?safe=true")
+                                                  .Ctor<string>("databaseName").Is("penedating");
 
                                              x.For<IHugRepository>()
-                                               .Use<HugRepository>()
+                                              .Use<HugRepository>()
                                                   .Ctor<string>("connectionString").Is("mongodb://localhost/?safe=true")
                                                   .Ctor<string>("databaseName").Is("penedating");
 
                                              x.For<IUserAccessTokenProvider>()
-                                                 .Use<MemcachedAccessTokenProvider>()
-                                                    .Ctor<string>("cookieName").Is("penedating-auth")
-                                                    .Ctor<bool>("useSecureCookie").Is(useSecureCookie);
+                                              .Use<MemcachedAccessTokenProvider>()
+                                                  .Ctor<string>("cookieName").Is("penedating-auth")
+                                                  .Ctor<bool>("useSecureCookie").Is(useSecureCookie);
 
-                                             var memcachedConfig = new MemcachedClientConfiguration
-                                                                       {
-                                                                           Protocol = MemcachedProtocol.Binary,
-                                                                           Transcoder = new NewtonsoftTranscoder()
-                                                                       };
-                                             memcachedConfig.AddServer("localhost", 11211);
-
-                                             x.For<IMemcachedClient>().Singleton().Use(new MemcachedClient(memcachedConfig));
+                                             x.For<IMemcachedClient>().Use(MemcachedClient);
                                          });
 
             return ObjectFactory.Container;

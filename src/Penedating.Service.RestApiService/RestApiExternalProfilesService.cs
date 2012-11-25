@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Penedating.Service.Model;
@@ -22,33 +21,38 @@ namespace Penedating.Service.RestApiService
         public IEnumerable<PartnerQueryResult> GetExternalProfiles()
         {
             var tasks = _partners.Select(a => Task.Factory.StartNew(() =>
-                                                                        {
-                                                                            {
-                                                                                using (var client = new WebClient())
-                                                                                {
-                                                                                    try
-                                                                                    {
-                                                                                        client.Headers["X-Limit"] = "10";
-                                                                                        var jsonString = client.DownloadString(a);
-                                                                                        var result = JsonConvert.DeserializeObject<ExternalProfile[]>(jsonString);
+                                {
+                                    {
+                                        using (var client = new WebClient())
+                                        {
+                                            try
+                                            {
+                                                client.Headers["X-Limit"] = "10";
+                                                string jsonString = client.DownloadString(a);
+                                                var result = JsonConvert.DeserializeObject<ExternalProfile[]>(jsonString);
 
-                                                                                        return new PartnerQueryResult()
-                                                                                                   {
-                                                                                                       PartnerUri = a,
-                                                                                                       Profiles = result
-                                                                                                   };
-                                                                                    }
-                                                                                    catch (Exception e)
-                                                                                    {
-                                                                                        return new PartnerQueryResult()
-                                                                                                   {
-                                                                                                       PartnerUri = a,
-                                                                                                       ExceptionThrown = e
-                                                                                                   };
-                                                                                    }
-                                                                                }
-                                                                            }
-                                                                        })).ToArray();
+                                                if (result.Count() > 10)
+                                                {
+                                                    throw new Exception("Partner: " + a + " didn't not respect the X-Limit header");
+                                                }
+
+                                                return new PartnerQueryResult
+                                                            {
+                                                                PartnerUri = a,
+                                                                Profiles = result
+                                                            };
+                                            }
+                                            catch (Exception e)
+                                            {
+                                                return new PartnerQueryResult
+                                                            {
+                                                                PartnerUri = a,
+                                                                PartnerError = e.Message
+                                                            };
+                                            }
+                                        }
+                                    }
+                                })).ToArray();
 
             Task.WaitAll(tasks);
             var results = tasks.Select(a => a.Result);
