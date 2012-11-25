@@ -40,6 +40,7 @@ namespace Penedating.IoC.DependencyResolution
 
             var externalPartners = new List<Uri>
                                        {
+                                           new Uri("http://173.203.83.220/ssase12/services/users"),
                                            new Uri("http://173.203.86.196/ssase12/services/users"),
                                            new Uri("http://173.203.81.201/ssase12/services/users"),
                                            new Uri("http://173.203.82.223/ssase12/services/users"),
