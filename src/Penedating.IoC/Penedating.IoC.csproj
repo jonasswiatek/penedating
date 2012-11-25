@@ -87,6 +87,10 @@
       <Project>{E0EE05F5-FF18-43FC-BB82-7F3F8B42B402}</Project>
       <Name>Penedating.Service.MongoService</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Penedating.Service.RestApiService\Penedating.Service.RestApiService.csproj">
+      <Project>{65CBBEB1-F4E8-46A7-84AD-5A3246EDAF99}</Project>
+      <Name>Penedating.Service.RestApiService</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Penedating.Web.Models
+namespace Penedating.Service.Model
 {
     public class ExternalProfile
     {

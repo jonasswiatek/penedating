@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
 using AutoMapper;
+using Penedating.Service.Model;
 using Penedating.Service.Model.Contract;
 using Penedating.Web.Models;
 

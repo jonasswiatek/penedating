@@ -106,7 +106,6 @@
     <Compile Include="Models\AdminUserProfile.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
     <Compile Include="Models\DataAnnotations\EmailValidationAttribute.cs" />
-    <Compile Include="Models\ExternalProfile.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\ProfileList.cs" />
     <Compile Include="Models\ProfileListItem.cs" />

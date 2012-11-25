@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -36,9 +37,11 @@ namespace Penedating.Web
             );
         }
 
-        protected void Application_Start()
+        protected void Application_Start()  
         {
-            
+            //Warning: This is horrible fucking code. But since everyone in class use self signed certificates we simply need to.
+            ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+
             AreaRegistration.RegisterAllAreas();
 
             RegisterGlobalFilters(GlobalFilters.Filters);
