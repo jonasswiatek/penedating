@@ -1,9 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
-using DR.Sleipner;
-using DR.Sleipner.CacheConfiguration;
-using DR.Sleipner.EnyimMemcachedProvider;
 using Enyim.Caching;
 using Enyim.Caching.Configuration;
 using Enyim.Caching.Memcached;
@@ -21,7 +18,7 @@ namespace Penedating.IoC.DependencyResolution
 {
     public static class IoC
     {
-        public static SleipnerProxy<IExternalProfilesService> ExternalProfilesProxy;
+        //public static SleipnerProxy<IExternalProfilesService> ExternalProfilesProxy;
         public static IMemcachedClient MemcachedClient;
 
         public static IContainer Initialize()
@@ -53,18 +50,18 @@ namespace Penedating.IoC.DependencyResolution
                                            new Uri("http://184.106.176.150/ssase12/services/users"),
                                            new Uri("http://184.106.134.110/ssase12/services/users")
                                        };
-
+            /*
             ExternalProfilesProxy = new SleipnerProxy<IExternalProfilesService>(
                 new RestApiExternalProfilesService(externalPartners),
                 new EnyimMemcachedProvider<IExternalProfilesService>(MemcachedClient)
                 );
-
-            ExternalProfilesProxy.Configure(a => a.ForAll().CacheFor(60));
+            
+            ExternalProfilesProxy.Configure(a => a.ForAll().CacheFor(60));*/
 
             ObjectFactory.Initialize(x =>
                                          {
                                              x.For<IExternalProfilesService>()
-                                              .Use(ExternalProfilesProxy.Object);
+                                              .Use(new RestApiExternalProfilesService(externalPartners));
 
                                              x.For<IUserService>()
                                               .Use<MongoUserService>();

@@ -31,12 +31,6 @@ namespace Penedating.Web
             );
 
             routes.MapRoute(
-                "services/status route",
-                "services/status",
-                new { controller = "services", action = "status" }
-            );
-
-            routes.MapRoute(
                 "Default", // Route name
                 "{controller}/{action}/{id}", // URL with parameters
                 new { controller = "Home", action = "Index", id = UrlParameter.Optional } // Parameter defaults

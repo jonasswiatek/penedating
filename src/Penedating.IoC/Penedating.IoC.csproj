@@ -67,14 +67,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\lib\sleipner\src\DR.Sleipner.EnyimMemcachedProvider\DR.Sleipner.EnyimMemcachedProvider.csproj">
-      <Project>{0CAE6787-8A4E-48B3-A4DE-2CC287AC464C}</Project>
-      <Name>DR.Sleipner.EnyimMemcachedProvider</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\lib\sleipner\src\DR.Sleipner\DR.Sleipner.csproj">
-      <Project>{A83CDA8A-9BEC-4CB2-99D6-7A7E05BD3AEE}</Project>
-      <Name>DR.Sleipner</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Penedating.Data.MongoDB.Model\Penedating.Data.MongoDB.Model.csproj">
       <Project>{14B90E5B-C7F7-4058-8FFF-15EB6C353227}</Project>
       <Name>Penedating.Data.MongoDB.Model</Name>

@@ -12,12 +12,10 @@ namespace Penedating.Web.Controllers
     public class HomeController : Controller
     {
         private readonly IUserAccessTokenProvider _accessTokenProvider;
-        private readonly IExternalProfilesService _externalProfilesService;
 
-        public HomeController(IUserAccessTokenProvider accessTokenProvider, IExternalProfilesService externalProfilesService)
+        public HomeController(IUserAccessTokenProvider accessTokenProvider)
         {
             _accessTokenProvider = accessTokenProvider;
-            _externalProfilesService = externalProfilesService;
         }
 
         public ActionResult Index()

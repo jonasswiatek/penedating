@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -21,15 +22,19 @@ namespace Penedating.Service.RestApiService
         public IEnumerable<PartnerQueryResult> GetExternalProfiles()
         {
             var tasks = _partners.Select(a => Task.Factory.StartNew(() =>
-                                {
                                     {
-                                        using (var client = new WebClient())
+                                        try
                                         {
-                                            try
+                                            var request = (HttpWebRequest) WebRequest.Create(a);
+                                            request.Timeout = 8000;
+                                            request.Headers["X-Limit"] = "10";
+
+                                            using (var response = request.GetResponse())
+                                            using (var responseStream = response.GetResponseStream())
+                                            using (var streamReader = new StreamReader(responseStream))
                                             {
-                                                client.Headers["X-Limit"] = "10";
-                                                string jsonString = client.DownloadString(a);
-                                                var result = JsonConvert.DeserializeObject<ExternalProfile[]>(jsonString);
+                                                var jsonText = streamReader.ReadToEnd();
+                                                var result = JsonConvert.DeserializeObject<ExternalProfile[]>(jsonText);
 
                                                 if (result.Count() > 10)
                                                 {
@@ -42,17 +47,17 @@ namespace Penedating.Service.RestApiService
                                                                 Profiles = result
                                                             };
                                             }
-                                            catch (Exception e)
-                                            {
-                                                return new PartnerQueryResult
-                                                            {
-                                                                PartnerUri = a,
-                                                                PartnerError = e.Message
-                                                            };
-                                            }
+                                        }
+                                        catch (Exception e)
+                                        {
+                                            return new PartnerQueryResult
+                                                        {
+                                                            PartnerUri = a,
+                                                            PartnerError = e.Message
+                                                        };
                                         }
                                     }
-                                })).ToArray();
+                                    )).ToArray();
 
             Task.WaitAll(tasks);
             var results = tasks.Select(a => a.Result);
