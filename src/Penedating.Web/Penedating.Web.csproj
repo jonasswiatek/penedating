@@ -97,6 +97,7 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MeController.cs" />
     <Compile Include="Controllers\ProfilesController.cs" />
+    <Compile Include="Controllers\ServicesController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -105,6 +106,7 @@
     <Compile Include="Models\AdminUserProfile.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
     <Compile Include="Models\DataAnnotations\EmailValidationAttribute.cs" />
+    <Compile Include="Models\ExternalProfile.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\ProfileList.cs" />
     <Compile Include="Models\ProfileListItem.cs" />
