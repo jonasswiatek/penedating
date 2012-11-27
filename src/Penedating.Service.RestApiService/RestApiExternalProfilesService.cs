@@ -26,7 +26,7 @@ namespace Penedating.Service.RestApiService
                                         try
                                         {
                                             var request = (HttpWebRequest) WebRequest.Create(a);
-                                            request.Timeout = 8000;
+                                            request.Timeout = 12000;
                                             request.Headers["X-Limit"] = "10";
 
                                             using (var response = request.GetResponse())
