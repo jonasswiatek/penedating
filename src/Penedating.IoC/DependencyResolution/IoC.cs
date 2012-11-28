@@ -51,7 +51,8 @@ namespace Penedating.IoC.DependencyResolution
                                            new Uri("http://173.203.84.251/ssase12/services/users"),
                                            new Uri("http://173.203.78.105/ssase12/services/users"),
                                            new Uri("http://184.106.176.150/ssase12/services/users"),
-                                           new Uri("http://184.106.134.110/ssase12/services/users")
+                                           new Uri("http://184.106.134.110/ssase12/services/users"),
+                                           new Uri("http://184.106.176.113/ssase12/services/users")
                                        };
             
             ExternalProfilesProxy = new SleipnerProxy<IExternalProfilesService>(

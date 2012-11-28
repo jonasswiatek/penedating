@@ -15,7 +15,6 @@
     </div>
 </div>
 <table class="table table-striped">
-<caption>Status of external partners</caption>
   <thead>
     <tr>
         <th>Partner url</th>
@@ -26,9 +25,10 @@
     <tbody>
         @foreach(var partner in Model)
         {
-            <tr>
+            var success = partner.Profiles.Any();
+            <tr class="@(success ? "success" : "error")">
                 <td>@partner.PartnerUri</td>
-                <td>@(partner.Profiles.Any() ? "OK" : "Failed")</td>
+                <td>@(success ? "OK" : "Failed")</td>
                 <td>@partner.PartnerError</td>
             </tr> 
         }

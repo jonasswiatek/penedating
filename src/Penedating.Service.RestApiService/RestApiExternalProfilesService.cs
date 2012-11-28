@@ -41,6 +41,16 @@ namespace Penedating.Service.RestApiService
                                                     throw new Exception("Partner: " + a + " didn't not respect the X-Limit header");
                                                 }
 
+                                                if (result.Any(b => b.name == null))
+                                                {
+                                                    throw new FormatException("Partner returned a profile where name is null");
+                                                }
+
+                                                if (result.Any(b => b.hobbies == null))
+                                                {
+                                                    throw new FormatException("Partner returned a profile where hobbies is null.");
+                                                }
+
                                                 return new PartnerQueryResult
                                                             {
                                                                 PartnerUri = a,
