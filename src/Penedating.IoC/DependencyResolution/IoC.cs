@@ -40,19 +40,19 @@ namespace Penedating.IoC.DependencyResolution
 
             var externalPartners = new List<Uri>
                                        {
-                                           new Uri("http://173.203.83.220/ssase12/services/users"),
-                                           new Uri("http://173.203.86.196/ssase12/services/users"),
-                                           new Uri("http://173.203.81.201/ssase12/services/users"),
-                                           new Uri("http://173.203.82.223/ssase12/services/users"),
-                                           new Uri("http://173.203.84.108/ssase12/services/users"),
-                                           new Uri("http://173.203.84.157/ssase12/services/users"),
-                                           new Uri("http://173.203.84.203/ssase12/services/users"),
-                                           new Uri("http://173.203.84.207/ssase12/services/users"),
-                                           new Uri("http://173.203.84.251/ssase12/services/users"),
-                                           new Uri("http://173.203.78.105/ssase12/services/users"),
-                                           new Uri("http://184.106.176.150/ssase12/services/users"),
-                                           new Uri("http://184.106.134.110/ssase12/services/users"),
-                                           new Uri("http://184.106.176.113/ssase12/services/users")
+                                           new Uri("https://173.203.83.220/ssase12/services/users"),
+                                           new Uri("https://173.203.86.196/ssase12/services/users"),
+                                           new Uri("https://173.203.81.201/ssase12/services/users"),
+                                           new Uri("https://173.203.82.223/ssase12/services/users"),
+                                           new Uri("https://173.203.84.108/ssase12/services/users"),
+                                           new Uri("https://173.203.84.157/ssase12/services/users"),
+                                           new Uri("https://173.203.84.203/ssase12/services/users"),
+                                           new Uri("https://173.203.84.207/ssase12/services/users"),
+                                           new Uri("https://173.203.84.251/ssase12/services/users"),
+                                           new Uri("https://173.203.78.105/ssase12/services/users"),
+                                           new Uri("https://184.106.176.150/ssase12/services/users"),
+                                           new Uri("https://184.106.134.110/ssase12/services/users"),
+                                           new Uri("https://184.106.176.113/ssase12/services/users")
                                        };
             
             ExternalProfilesProxy = new SleipnerProxy<IExternalProfilesService>(
