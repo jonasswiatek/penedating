@@ -12,5 +12,6 @@ namespace Penedating.Web.Models
         public int PageSize;
 
         public IEnumerable<ProfileListItem> Profiles;
+        public string randId;
     }
 }

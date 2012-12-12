@@ -46,6 +46,10 @@ namespace Penedating.Web.App_Start
                   .ForMember(a => a.Username, b => b.MapFrom(c => c.Username))
                   .ForMember(a => a.Hobbies, b => b.MapFrom(c => c.Hobbies));
 
+            Mapper.CreateMap<ExternalProfile, ProfileListItem>()
+                  .ForMember(a => a.Username, b => b.MapFrom(c => c.name))
+                  .ForMember(a => a.Hobbies, b => b.MapFrom(c => c.hobbies));
+
             Mapper.CreateMap<ProfileViewModel, Address>()
                   .ForMember(a => a.Street, b => b.MapFrom(c => c.StreetAddress))
                   .ForMember(a => a.City, b => b.MapFrom(c => c.City))

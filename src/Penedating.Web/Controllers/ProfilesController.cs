@@ -12,10 +12,12 @@ namespace Penedating.Web.Controllers
     public class ProfilesController : Controller
     {
         private readonly IUserProfileService _userProfileService;
+        private readonly IExternalProfilesService _externalProfilesService;
 
-        public ProfilesController(IUserProfileService userProfileService)
+        public ProfilesController(IUserProfileService userProfileService, IExternalProfilesService externalProfilesService)
         {
             _userProfileService = userProfileService;
+            _externalProfilesService = externalProfilesService;
         }
 
         public ActionResult Index(int pageIndex = 0, int pageSize = 4)
@@ -32,6 +34,30 @@ namespace Penedating.Web.Controllers
             };
 
             return View(viewModel);
+        }
+
+        public ActionResult ExternalProfiles(int pageIndex = 0, int pageSize = 4)
+        {
+            var profiles = _externalProfilesService.GetExternalProfiles();
+
+            var profileListItems = profiles.SelectMany(a => a.Profiles);
+            var pageCount = ((int)profileListItems.Count()) / pageSize;
+            if (profileListItems.Count() % pageSize != 0)
+            {
+                pageCount += 1;
+            }
+
+            var profileItems = Mapper.Map<IEnumerable<ProfileListItem>>(profileListItems);
+
+            var viewModel = new ProfileList()
+            {
+                PageCount = pageCount,
+                PageSize = pageSize,
+                PageIndex = pageIndex,
+                Profiles = profileItems.Skip(pageIndex*pageSize).Take(pageSize)
+            };
+
+            return View("Index", viewModel);
         }
     }
 }

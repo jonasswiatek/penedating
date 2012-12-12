@@ -28,6 +28,7 @@ namespace Penedating.Service.RestApiService
                                             var request = (HttpWebRequest) WebRequest.Create(a);
                                             request.Timeout = 12000;
                                             request.Headers["X-Limit"] = "10";
+                                            request.ServicePoint.ConnectionLimit = 8;
 
                                             using (var response = request.GetResponse())
                                             using (var responseStream = response.GetResponseStream())

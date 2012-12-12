@@ -1,27 +1,40 @@
 ﻿@model Penedating.Web.Models.ProfileList
 @{
     Layout = null;
+    var action = ViewContext.RouteData.GetRequiredString("action");
 }
-<div id="profiles">
+<div class="ajax-container" id="rofl">
     <div class="pagination pagination-right pagination-small">
         <ul>
             @if (Model.PageIndex > 0)
             {
                 <li>
-                    <a href="javascript:ajax('@Url.Action("Index", "Profiles", new { pageIndex = Model.PageIndex - 1, Model.PageSize })',$('#profiles'))">Prev</a>
+                    <a href="javascript:void()" onclick=" ajax('@Url.Action(action, new {pageIndex = Model.PageIndex - 1, Model.PageSize})', $(this).closest('div.ajax-container'))">Prev</a>
+                </li>
+            }
+            else
+            {
+                <li class="disabled">
+                    <a>Prev</a>
                 </li>
             }
             @for (var i = 0; i < Model.PageCount; i++)
             {
                 var classses = i == Model.PageIndex ? "active" : "";
                 <li class="@classses">
-                    <a href="javascript:ajax('@Url.Action("Index", "Profiles", new { pageIndex = i, Model.PageSize })',$('#profiles'))">@(i+1)</a>
+                    <a href="javascript:void()" onclick="ajax('@Url.Action(action, new { pageIndex = i, Model.PageSize })',$(this).closest('div.ajax-container'))">@(i + 1)</a>
                 </li>
             }
             @if (Model.PageIndex + 1 < Model.PageCount)
             {
                 <li>
-                    <a href="javascript:ajax('@Url.Action("Index", "Profiles", new { pageIndex = Model.PageIndex + 1, Model.PageSize })',$('#profiles'))">Next</a>
+                    <a href="javascript:void()" onclick=" ajax('@Url.Action(action, new {pageIndex = Model.PageIndex + 1, Model.PageSize})', $(this).closest('div.ajax-container'))">Next</a>
+                </li>
+            }
+            else
+            {
+                <li class="disabled">
+                    <a>Next</a>
                 </li>
             }
         </ul>

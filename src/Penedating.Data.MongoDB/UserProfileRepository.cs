@@ -53,6 +53,7 @@ namespace Penedating.Data.MongoDB
             var query = _mongoCollection.FindAll();
             query.SetLimit(pageSize);
             query.SetSkip(pageSize*pageIndex);
+            query.SetSortOrder(SortBy.Ascending("_id"));
             pageCount = ((int)query.Count()) / pageSize;
             if (query.Count()%pageSize != 0)
             {

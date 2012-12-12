@@ -2,7 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using DR.Sleipner;
-using DR.Sleipner.CacheConfiguration;
+using DR.Sleipner.Config;
+using DR.Sleipner.Config.Expressions;
 using DR.Sleipner.EnyimMemcachedProvider;
 using Enyim.Caching;
 using Enyim.Caching.Configuration;
@@ -40,7 +41,7 @@ namespace Penedating.IoC.DependencyResolution
 
             var externalPartners = new List<Uri>
                                        {
-                                           new Uri("https://173.203.83.220/ssase12/services/users"),
+                                           //new Uri("https://173.203.83.220/ssase12/services/users"), //Just here for testing.
                                            new Uri("https://173.203.86.196/ssase12/services/users"),
                                            new Uri("https://173.203.81.201/ssase12/services/users"),
                                            new Uri("https://173.203.82.223/ssase12/services/users"),
@@ -60,7 +61,7 @@ namespace Penedating.IoC.DependencyResolution
                 new EnyimMemcachedProvider<IExternalProfilesService>(MemcachedClient)
                 );
             
-            ExternalProfilesProxy.Configure(a => a.ForAll().CacheFor(60));
+            ExternalProfilesProxy.Config(a => a.DefaultIs().CacheFor(60));
 
             ObjectFactory.Initialize(x =>
                                          {
