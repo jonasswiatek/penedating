@@ -19,3 +19,34 @@
         @Html.Action("ExternalProfiles", "Profiles")
     </div>
 </div>
+<div class="row">
+    <div class="span12">
+        <div class="hero-unit">
+            <h1>Security is important</h1>
+            <p>
+                At Penedating we respect your privacy and, and go to great lengths to ensure that this service is secure and available when you need it.
+            </p>
+            <p>We promise an uptime of 95% over 30 days. You can find our uptime log <a href="http://stats.pingdom.com/0davm42bz46g/687339">here</a></p>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="span12">
+        <h2>How we protect our selves</h2>
+        <p>To protect your privacy we go to great lengths to product our selves again:</p>
+        <p>
+            <ul>
+                <li>Man-in-the-middle attacks by using HTTPS for all communication between you and us</li>
+                <li>SQL Injection by using state of the art database platforms and securely built ORM wrappers for them. Actually we don't even use SQL</li>
+                <li>XSS attacks by using solid framrworks for input sanitation and output escaping</li>
+                <li>All passwords are hashed using a PBKDF2-SHA1 algorithm</li>
+            </ul>
+        </p>
+        <p>Don't believe us? We're open source, so feel free to review our implementation your self.</p>
+        <h3>A small usecase</h3>
+        <p>
+            A small usecase that proves that we're protected against XSS attacks can be easily tested by your self. Go to your profile and try to enter HTML tags into the form fields. For instance you could try to create a hobby like this: &lt;b&gt;hacking&lt;/b&gt;. You will see that the web site refuses to enter this hobby because it contains active HTML. You can try to inject different HTML variations. They will either be rejected or, if they do get in, escaped when they're printed back onto the web site.
+        </p>
+        <p>Another good case is that you can see that we run our cookies as httpOnly; and secure; - which also helps to ensure your privacy by preventing sniffing your authentication cookie by a third party</p>
+    </div>
+</div>
