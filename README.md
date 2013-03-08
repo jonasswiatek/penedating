@@ -1,4 +1,5 @@
 ### Penedating
-This is a project deliverable for the class ITU-SSAS-E2012.
 
-Penedating is a dating site for students who enjoy penetration testing, but are lacking partners to partake in various testing sessions.
+PLEASE BE AWARE THAT THIS IS A UNIVERSITY COURSE PROJECT AND NOT A REAL PRODUCT.
+
+This is a project deliverable for the class ITU-SSAS-E2012.
